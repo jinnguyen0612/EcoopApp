@@ -5,3 +5,5 @@ HOW TO RUN?
     npm start
     s to switch to Expo Go
     a to open EcoopApp on Android
+3. STOP SERVER
+    ctrl C
