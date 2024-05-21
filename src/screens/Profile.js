@@ -7,7 +7,7 @@ import { InputPhone, InputText } from '../components/Input';
 import { Button } from '../components/Button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-export default function Profile(){
+export default function Profile({ navigation }){
     const [name, setName] = useState("Phan Đăng Khoa");
     const [email, setEmail] = useState("p.khoa90@gmail.com");
     const [phone, setPhone] = useState("0707072708");
@@ -19,7 +19,7 @@ export default function Profile(){
     return (
         <KeyboardAwareScrollView style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={{flex:1}}>
+                <TouchableOpacity style={{flex:1}} onPress={()=>navigation.goBack()}>
                     <FontAwesomeIcon size={20} icon={faArrowLeft}/>
                 </TouchableOpacity>
                 <View style={{flex:10}}> 
@@ -53,7 +53,8 @@ export default function Profile(){
                 <InputText
                     label={'Chức vụ'}
                     data={position}
-                    setData={setPosition}/>
+                    setData={setPosition}
+                    editable={false}/>
                 
                 <View style={{marginTop:25}}>
                     <Button title={'Chỉnh sửa'}/>

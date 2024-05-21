@@ -8,21 +8,19 @@ import { Button } from '../components/Button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {Team} from "../components/Team";
 
-export default function Collaborator(){
+export default function Collaborator({ navigation }){
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={{flex:1}}>
+                <TouchableOpacity style={{flex:1}} onPress={()=>navigation.goBack()}>
                     <FontAwesomeIcon size={20} icon={faArrowLeft}/>
                 </TouchableOpacity>
                 <View style={{flex:10}}> 
                     <Text style={styles.headerTitle}>Đội của tôi</Text>
                 </View>
                 <View style={{flex:1}}>
-                    <TouchableOpacity style={{width:30,height:30,backgroundColor:'#3F8CFF',borderRadius:100,justifyContent:'center',alignItems:'center'}}>
-                        <FontAwesomeIcon color='white' size={20} icon={faAdd}/>
-                    </TouchableOpacity>
+                
                 </View>
             </View>
             <ScrollView style={styles.listTeam}>
@@ -63,7 +61,7 @@ export default function Collaborator(){
                     position={'Cộng tác viên'}
                     numMember={20}/>
 
-                <View style={{height:120}}></View>
+                <View style={{height:100}}></View>
             </ScrollView>
             
           <StatusBar style="auto" />

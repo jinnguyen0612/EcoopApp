@@ -7,7 +7,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {Button} from '../components/Button';
 import { InputPassword, InputPhone, InputText } from '../components/Input';
 
-export default function Signup() {
+export default function Signup({ navigation }) {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

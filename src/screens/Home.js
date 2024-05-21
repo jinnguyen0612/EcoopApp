@@ -7,19 +7,27 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-nati
 import { Order } from '../components/Order';
 import { Button } from '../components/Button';
 import { LineChartWithAverage } from '../components/Char';
+import { SideBar } from '../components/SideBar';
 
-export default function Home() {
+export default function Home({ navigation }) {
+    const [modalShow,setModalShow] = useState(false);
+    const [ordersShow,setOrdersShow] = useState(true);
     const [hide,setHide] = useState(true);
   return (
     <View style={styles.container}>
+        {
+          modalShow?
+          <SideBar navigation={navigation} onClose={()=>setModalShow(false)}/>:
+          <></>
+        }
         <View style={styles.header}>
-            <TouchableOpacity style={{flex:1}}>
+            <TouchableOpacity style={{flex:1}} onPress={()=> setModalShow(true)}>
                 <FontAwesomeIcon size={20} icon={faBars}/>
             </TouchableOpacity>
             <View style={{flex:10}}> 
                 <Text style={styles.headerTitle}>Tài khoản của tôi</Text>
             </View>
-            <TouchableOpacity style={{flex:1,position:'relative'}}>
+            <TouchableOpacity style={{flex:1,position:'relative'}} onPress={()=>navigation.navigate('Events')}>
                 <FontAwesomeIcon size={20} icon={faBell}/>
                 {hide?
                  <View style={{height:7,width:7,borderRadius:5,backgroundColor:'red',position:'absolute',left:12}}></View>
@@ -47,10 +55,12 @@ export default function Home() {
             </View>
         </View>
 
-        <TouchableOpacity style={{marginTop:40,marginLeft:20,marginBottom:10}}>
-          <Text style={styles.listTitle}><FontAwesomeIcon color='#3F8CFF' icon={faChevronUp}/>  Danh sách đơn hàng</Text>
+        <TouchableOpacity style={{marginTop:40,marginLeft:20,marginBottom:10}} onPress={()=>setOrdersShow(!ordersShow)}>
+          <Text style={styles.listTitle}><FontAwesomeIcon color='#3F8CFF' icon={ordersShow?faChevronUp:faChevronDown}/>  Danh sách đơn hàng</Text>
         </TouchableOpacity>
 
+        {
+          ordersShow?
         <ScrollView style={styles.listOrder}>
           <Order 
             avt={'https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg'}
@@ -106,8 +116,11 @@ export default function Home() {
             money={'10000'}
             description={'092xxxxx29 đã mua hàng lúc 10:10'}
             status={'3'}/>
-          <View style={{height:440}}></View>
+          <View style={{height:480}}></View>
         </ScrollView>
+        :<></>
+        }
+
         
         
       <StatusBar style="auto" />
@@ -119,6 +132,7 @@ const styles = StyleSheet.create({
   
     container: {
         backgroundColor: '#fff',
+        position:'relative'
   },
     header:{
         marginTop:60,

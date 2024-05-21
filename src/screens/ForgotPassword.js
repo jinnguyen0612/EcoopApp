@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
 import {Button} from '../components/Button';
 import {InputPassword, InputPhone, InputText} from '../components/Input';
 
-export default function ForgotPassword() {
+export default function ForgotPassword({ navigation }) {
 
   const [referralPhone, setReferralPhone] = useState("");
 

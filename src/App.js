@@ -10,12 +10,13 @@ import Profile from "./screens/Profile";
 import Collaborator from "./screens/Collaborator";
 import Events from "./screens/Events";
 import EventDetails from "./screens/EventDetails";
-
+import MyScreen from "./navigation/main";
 
 export default function App(){
+  const isLogin = false;
   return(
     <NavigationContainer>
-      <EventDetails/>
+      <MyScreen isLogin={isLogin}/>
     </NavigationContainer>
   );
 }
