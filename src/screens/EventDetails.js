@@ -11,7 +11,7 @@ import { Notify } from '../components/Notify';
 import ListAvt, { Avatar } from '../components/ListAvt';
 
 
-export default function EventDetails(){
+export default function EventDetails({ navigation }){
     const avtLink = [
         'https://1.bp.blogspot.com/-suPoIp0q7J8/YQP2BoeKQDI/AAAAAAAACEY/5yzEtTUsRpMggIHvBBPAxSmZ79nZKBCVgCLcBGAsYHQ/s750/7.jpg',
         'https://1.bp.blogspot.com/-WRVMxXn7gJg/YQP2AJK2zOI/AAAAAAAACD0/0MVArLtw9_89z_yBD6k8PCm9SGHd-cQYwCLcBGAsYHQ/s750/1.jpg',
@@ -23,7 +23,7 @@ export default function EventDetails(){
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={{flex:1}}>
+                <TouchableOpacity style={{flex:1}} onPress={()=>navigation.goBack()}>
                     <FontAwesomeIcon size={20} icon={faArrowLeft}/>
                 </TouchableOpacity>
                 <View style={{flex:10}}> 

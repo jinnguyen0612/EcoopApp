@@ -3,13 +3,13 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-export function InputText({label,placeholder,data,setData}){
+export function InputText({label,placeholder,data,setData,editable=true}){
     return(
         <View>
             <Text style={styles.label}>
                 {label}
             </Text>
-            <TextInput value={data} onChangeText={setData} style={styles.inputAuth} placeholder={placeholder}/>
+            <TextInput value={data} onChangeText={setData} style={styles.inputAuth} placeholder={placeholder} editable={editable}/>
         </View>
     )
 }
@@ -42,7 +42,7 @@ export function InputPhone({label,placeholder,data,setData}){
                 {label}
             </Text>
             <View style={styles.flex}>
-                <Text style={[styles.inputPhone,{flex:1,borderWidth:1,marginRight:16,color:'#9795A4',borderColor:'#bdbdbd'}]}>+84</Text>
+                <Text style={[styles.inputPhone,{flex:2,borderWidth:1,marginRight:16,color:'#9795A4',borderColor:'#bdbdbd'}]}>+84</Text>
                 <TextInput value={data} onChangeText={setData} keyboardType='number-pad' style={[styles.inputPhone,{flex:6}]} placeholder={placeholder} placeholderTextColor={'#d1d1d1'}/>
             </View>
         </View>

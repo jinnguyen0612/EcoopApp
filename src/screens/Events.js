@@ -9,12 +9,12 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {Team} from "../components/Team";
 import { Notify } from '../components/Notify';
 
-export default function Events(){
+export default function Events({ navigation }){
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={{flex:1}}>
+                <TouchableOpacity style={{flex:1}} onPress={()=>navigation.goBack()}>
                     <FontAwesomeIcon size={20} icon={faArrowLeft}/>
                 </TouchableOpacity>
                 <View style={{flex:10}}> 

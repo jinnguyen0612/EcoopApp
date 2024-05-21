@@ -2,7 +2,12 @@
   "expo": {
     "name": "EcoopApp",
     "slug": "EcoopApp",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "1a642c9e-b92d-4bcf-9978-fd9ac229fef2"
+      }
+    }
   },
   "name": "EcoopApp"
 }

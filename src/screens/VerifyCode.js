@@ -13,7 +13,7 @@ import { Button } from '../components/Button';
 const CELL_COUNT = 6;
 
 
-export default function VerifyCode() {
+export default function VerifyCode({ navigation }) {
 
     const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
