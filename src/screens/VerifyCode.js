@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
       borderColor: '#00000030',
       textAlign: 'center',
       borderRadius:10,
-      fontWeight:'bold'
+      fontWeight:'400'
     },
     focusCell: {
       borderColor: '#000',
