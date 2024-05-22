@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { InputPhone, InputText } from '../components/Input';
@@ -71,6 +71,8 @@ export default function Profile({ navigation }){
       
         container: {
             backgroundColor: '#fff',
+            minHeight:Dimensions.get('screen').height,
+
       },
         header:{
             marginTop:60,

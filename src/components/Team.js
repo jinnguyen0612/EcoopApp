@@ -44,9 +44,9 @@ const styles = StyleSheet.create({
     shadowProp: {
         shadowColor: '#000',
         shadowOffset: { width: 1, height: 2 },
-        shadowOpacity: 0.5,
+        shadowOpacity: 0.1,
         shadowRadius: 3,
-        elevation: 10, // Thêm thuộc tính elevation để áp dụng shadow trên Android
+        elevation: 3, // Thêm thuộc tính elevation để áp dụng shadow trên Android
     },
     teamContainer: {
         marginTop: 14,

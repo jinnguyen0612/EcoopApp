@@ -3,7 +3,7 @@ import { faBars, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { Order } from '../components/Order';
 import { Button } from '../components/Button';
 import { LineChartWithAverage } from '../components/Char';
@@ -36,7 +36,7 @@ export default function Home({ navigation }) {
             </TouchableOpacity>
         </View>
 
-        <View style={[styles.commissionContainer,styles.shadowProp]}>
+        <View style={[styles.commissionContainer]}>
             <Text style={styles.commissionTitle}>Hoa hồng nhận được hôm nay</Text>
             <View style={{flexDirection:'row'}}>
                   <View style={styles.commissionLeft}>
@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
   
     container: {
         backgroundColor: '#fff',
-        position:'relative'
+        position:'relative',
+        minHeight:Dimensions.get('screen').height,
   },
     header:{
         marginTop:60,
@@ -154,10 +155,10 @@ const styles = StyleSheet.create({
   },
   shadowProp: {
     shadowColor: '#000',
-    shadowOffset: { width: 1, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.9,
     shadowRadius: 1,
-    elevation: 3, // Thêm thuộc tính elevation để áp dụng shadow trên Android
+    elevation: 2, // Thêm thuộc tính elevation để áp dụng shadow trên Android
 },
   commissionTitle:{
     color:'#9795A4',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { faAdd, faArrowLeft, faBlackboard } from '@fortawesome/free-solid-svg-icons';
 import { InputPhone, InputText } from '../components/Input';
@@ -73,6 +73,8 @@ export default function Collaborator({ navigation }){
       
         container: {
             backgroundColor: '#fff',
+            minHeight:Dimensions.get('screen').height,
+
       },
         header:{
             marginTop:60,

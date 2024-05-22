@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import {Button} from '../components/Button';
 import {InputPassword, InputPhone, InputText} from '../components/Input';
 
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   
   container: {
     backgroundColor: '#fff',
+    minHeight:Dimensions.get('screen').height,
   },
 
   logoContainer:{

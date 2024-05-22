@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import {SafeAreaView, Text, StyleSheet, View, Image} from 'react-native';
+import {SafeAreaView, Text, StyleSheet, View, Image, Dimensions} from 'react-native';
 
 import {
   CodeField,
@@ -63,6 +63,8 @@ export default function VerifyCode({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
+        minHeight:Dimensions.get('screen').height
+
     },
 
     logoContainer:{
