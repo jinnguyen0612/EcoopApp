@@ -1,29 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import {SafeAreaView, Text, StyleSheet, View, Image, Dimensions} from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import {
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  Alert,
+} from "react-native";
 
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
   useClearByFocusCell,
-} from 'react-native-confirmation-code-field';
-import { Button } from '../components/Button';
+} from "react-native-confirmation-code-field";
+import { Button } from "../components/Button";
+import axios from "../context/axios";
 
 const CELL_COUNT = 6;
 
-
 export default function VerifyCode({ navigation }) {
-
-    const [value, setValue] = useState('');
-  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const [value, setValue] = useState("");
+  const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
-
+  const handleVerify = async () => {
+    await axios
+      .post(axios.defaults.baseURL + "/collaborator/verify", {
+        code: value,
+      })
+      .then((res) => {
+        if (res && res.data.message === "success") {
+          Alert.alert("Success", "Verify Success", [
+            {
+              text: "Ok",
+              onPress: () => navigation.navigate("Referral"),
+              style: "cancel",
+            },
+          ]);
+        }
+      });
+  };
   return (
-
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image source={require("../assets/logo.png")} />
@@ -31,77 +53,76 @@ export default function VerifyCode({ navigation }) {
       <View style={styles.formContainer}>
         <Text style={styles.titleForm}>Nhập mã xác nhận</Text>
         <CodeField
-            ref={ref}
-            {...props}
-            // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
-            value={value}
-            onChangeText={setValue}
-            cellCount={CELL_COUNT}
-            rootStyle={styles.codeFieldRoot}
-            keyboardType="number-pad"
-            textContentType="oneTimeCode"
-            testID="my-code-input"
-            renderCell={({index, symbol, isFocused}) => (
+          ref={ref}
+          {...props}
+          // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
+          value={value}
+          onChangeText={setValue}
+          cellCount={CELL_COUNT}
+          rootStyle={styles.codeFieldRoot}
+          keyboardType="number-pad"
+          textContentType="oneTimeCode"
+          testID="my-code-input"
+          renderCell={({ index, symbol, isFocused }) => (
             <Text
-                key={index}
-                style={[styles.cell, isFocused && styles.focusCell]}
-                onLayout={getCellOnLayoutHandler(index)}>
-                {symbol || (isFocused ? <Cursor/> : null)}
+              key={index}
+              style={[styles.cell, isFocused && styles.focusCell]}
+              onLayout={getCellOnLayoutHandler(index)}
+            >
+              {symbol || (isFocused ? <Cursor /> : null)}
             </Text>
-        )}
+          )}
         />
-        <View style={{marginTop:25}}>
-            <Button title={'Xác nhận'}/>
+        <View style={{ marginTop: 25 }}>
+          <Button title={"Xác nhận"} onPress={handleVerify} />
         </View>
-    </View>
+      </View>
       <StatusBar style="auto" />
     </View>
-
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#fff',
-        minHeight:Dimensions.get('screen').height
+  container: {
+    backgroundColor: "#fff",
+    minHeight: Dimensions.get("screen").height,
+  },
 
-    },
+  logoContainer: {
+    marginTop: 80,
+    marginBottom: 40,
+    alignItems: "center",
+  },
 
-    logoContainer:{
-        marginTop:80,
-        marginBottom:40,
-        alignItems:'center'
-    },
+  loginContainer: {
+    marginTop: 30,
+    marginBottom: 20,
+  },
 
-    loginContainer:{
-        marginTop:30,
-        marginBottom:20
-    },
+  titleForm: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 
-    titleForm:{
-        fontSize:24,
-        fontWeight:'bold',
-        textAlign:'center'
-    },
-
-    formContainer:{
-        marginTop:18,
-        marginBottom:10,
-        marginHorizontal:46
-    },
-    codeFieldRoot: {marginTop: 20},
-    cell: {
-      width: 42,
-      height: 42,
-      lineHeight: 40,
-      fontSize: 24,
-      borderWidth: 2,
-      borderColor: '#00000030',
-      textAlign: 'center',
-      borderRadius:10,
-      fontWeight:'400'
-    },
-    focusCell: {
-      borderColor: '#000',
-    },
-  });
+  formContainer: {
+    marginTop: 18,
+    marginBottom: 10,
+    marginHorizontal: 46,
+  },
+  codeFieldRoot: { marginTop: 20 },
+  cell: {
+    width: 42,
+    height: 42,
+    lineHeight: 40,
+    fontSize: 24,
+    borderWidth: 2,
+    borderColor: "#00000030",
+    textAlign: "center",
+    borderRadius: 10,
+    fontWeight: "400",
+  },
+  focusCell: {
+    borderColor: "#000",
+  },
+});

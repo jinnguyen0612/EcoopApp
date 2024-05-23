@@ -1,23 +1,23 @@
 import axios from "./axios";
 import { createContext, useState } from "react";
-import DataStorage from "../common/utility/DataStorage";
+import DataStorage from "../utillity/DataStorage";
+import { Alert } from "react-native";
 
 const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(async () => {
-    const info = await DataStorage.GetDataStorage(['@userInfo']);
-    return info ? info : null
+    const info = await DataStorage.GetDataStorage(["@userInfo"]);
+    return info ? info : null;
   });
 
   const login = async (payload) => {
-    return await axios.post(
-      axios.defaults.baseURL + "/api/auth/user/login",
-      payload
-    );
-
+    //res.data.data[0].code_verify
+    return await axios.post(axios.defaults.baseURL + "/collaborator/login", {
+      payload,
+    });
   };
   const logout = async () => {
-    await DataStorage.RemoveDataStorage(['@accessToken','@userInfo']);
+    await DataStorage.RemoveDataStorage(["@accessToken", "@userInfo"]);
     setUser(null);
   };
   return (
