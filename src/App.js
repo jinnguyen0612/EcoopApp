@@ -5,11 +5,10 @@ import MyScreen from "./navigation/main";
 import { AuthContextProvider } from "./context/AuthProvider";
 
 export default function App() {
-  const isLogin = false;
   return (
     <AuthContextProvider>
       <NavigationContainer>
-        <MyScreen isLogin={isLogin} />
+        <MyScreen />
       </NavigationContainer>
     </AuthContextProvider>
   );

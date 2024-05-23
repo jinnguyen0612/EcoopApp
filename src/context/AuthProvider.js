@@ -5,6 +5,7 @@ import { Alert } from "react-native";
 
 const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
+  const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState(async () => {
     const info = await DataStorage.GetDataStorage(["@userInfo"]);
     return info ? info : null;
@@ -19,9 +20,10 @@ export const AuthContextProvider = ({ children }) => {
   const logout = async () => {
     await DataStorage.RemoveDataStorage(["@accessToken", "@userInfo"]);
     setUser(null);
+    setIsLogin(false);
   };
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ isLogin, setIsLogin, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

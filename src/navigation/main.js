@@ -9,11 +9,15 @@ import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 import Referral from "../screens/Referral";
 import VerifyCode from "../screens/VerifyCode";
+import { useContext } from "react";
+import AuthContext from "../context/AuthProvider";
 
 
 const Stack = createNativeStackNavigator()
 
-export default function MyScreen({isLogin}){
+export default function MyScreen(){
+    const { isLogin } = useContext(AuthContext);
+
     return(
         <Stack.Navigator>
             {

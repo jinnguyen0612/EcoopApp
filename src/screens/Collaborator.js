@@ -61,7 +61,7 @@ export default function Collaborator({ navigation }){
                     position={'Cộng tác viên'}
                     numMember={20}/>
 
-                <View style={{height:100}}></View>
+                <View style={{height:140}}></View>
             </ScrollView>
             
           <StatusBar style="auto" />

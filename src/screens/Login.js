@@ -20,47 +20,67 @@ import AuthContext from "../context/AuthProvider";
 import { useToast } from "react-native-toast-notifications";
 
 export default function Login({ navigation }) {
+  const { setIsLogin, login } = useContext(AuthContext);
   const toast = useToast();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordHide, setPasswordHide] = useState(true);
   const [token, setToken] = useState("");
-  const { login } = useContext(AuthContext);
   let payload = {
     email: email,
     password: password,
   };
+
   const handleLogin = async () => {
-    const res = await login(payload);
-    if (res) {
-      let decoded = jwtDecode(res.data.access_token);
-      console.log(decoded);
-      if (res.data.message === "success") {
-        Alert.alert("Success", "Login Success", [
-          {
-            text: "Ok",
-            onPress: () => navigation.navigate("VerifyCode"),
-            style: "cancel",
-          },
-        ]);
-        DataStorage.SetDataStorage([
-          { key: "@accessToken", value: res.data.access_token },
-          { key: "@userInfo", value: decoded },
-        ]);
+    try {
+      // Thực hiện đăng nhập với payload đã cung cấp
+      const res = await login(payload);
+  
+      if (res) {
+        const { data } = res;
+        let decoded = jwtDecode(data.access_token);
+  
+        if (data.message === "success") {
+          await DataStorage.SetDataStorage([
+            { key: "@accessToken", value: data.access_token },
+            { key: "@userInfo", value: decoded },
+          ]);
+  
+          const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
+          const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
+  
+          Alert.alert("Thành công", "Đăng nhập thành công", [
+            {
+              text: "Ok",
+              onPress: () => {
+                
+                userInfo.data[0].status_verify ===0?
+                (
+                  navigation.navigate('VerifyCode')
+                ):(
+                    setIsLogin(true)
+                )
+              },
+              style: "cancel",
+            },
+          ]);
+        } else if (data.message === "fails") {
+          Alert.alert("Thông báo", "Đăng nhập thất bại", [
+            {
+              text: "Hủy",
+              onPress: () => console.log("Đã nhấn hủy"),
+              style: "cancel",
+            },
+            { text: "OK", onPress: () => console.log("Đã nhấn OK") },
+          ]);
+        }
       }
-      if (res.data.message === "fails") {
-        Alert.alert("Alert Title", "My Alert Msg", [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]);
-      }
+    } catch (error) {
+      console.error("Lỗi đăng nhập: ", error);
     }
   };
+  
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
