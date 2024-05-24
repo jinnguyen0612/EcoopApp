@@ -34,7 +34,6 @@ export default function Login({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      // Thực hiện đăng nhập với payload đã cung cấp
       const res = await login(payload);
   
       if (res) {
@@ -42,7 +41,9 @@ export default function Login({ navigation }) {
         let decoded = jwtDecode(data.access_token);
   
         if (data.message === "success") {
-          await DataStorage.SetDataStorage([
+          console.log(decoded);
+          if(decoded.data[0].status_account===1){
+            await DataStorage.SetDataStorage([
             { key: "@accessToken", value: data.access_token },
             { key: "@userInfo", value: decoded },
           ]);
@@ -65,6 +66,12 @@ export default function Login({ navigation }) {
               style: "cancel",
             },
           ]);
+          }else if(decoded.data[0].status_account===0){
+            Alert.alert("Thông báo", "Tài khoản này đã bị khóa. Vui lòng liên hệ CSKH để biết thêm thông tin", [
+              { text: "OK", onPress: () => console.log("Đã nhấn OK") },
+            ]);
+          }
+          
         } else if (data.message === "fails") {
           Alert.alert("Thông báo", "Đăng nhập thất bại", [
             {

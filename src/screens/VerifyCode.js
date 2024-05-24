@@ -18,6 +18,7 @@ import {
 } from "react-native-confirmation-code-field";
 import { Button } from "../components/Button";
 import axios from "../context/axios";
+import DataStorage from "../utillity/DataStorage";
 
 const CELL_COUNT = 6;
 
@@ -29,21 +30,39 @@ export default function VerifyCode({ navigation }) {
     setValue,
   });
   const handleVerify = async () => {
-    await axios
-      .post(axios.defaults.baseURL + "/collaborator/verify", {
+    try {
+      const response = await axios.post(`${axios.defaults.baseURL}/collaborator/verify`, {
         code: value,
-      })
-      .then((res) => {
-        if (res && res.data.message === "success") {
-          Alert.alert("Success", "Verify Success", [
+      });
+
+      if (response && response.data.message === "success") {
+        const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
+        let userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
+
+        if (userInfo && userInfo.data && userInfo.data.length > 0) {
+          userInfo.data[0].status_verify = 1;
+          await DataStorage.SetDataStorage([
+            { key: "@userInfo", value: JSON.stringify(userInfo) },
+          ]);
+          Alert.alert("Thành công", "Xác minh thành công", [
             {
               text: "Ok",
               onPress: () => navigation.navigate("Referral"),
               style: "cancel",
             },
           ]);
+        } else {
+          console.error("Thông tin người dùng không được lưu trữ đúng cách.");
+          Alert.alert("Lỗi", "Thông tin người dùng không có sẵn.");
         }
-      });
+      } else {
+        console.error("Xác minh thất bại: ", response.data.message);
+        Alert.alert("Lỗi", "Xác minh thất bại. Vui lòng thử lại.");
+      }
+    } catch (error) {
+      console.error("Lỗi xác minh: ", error);
+      Alert.alert("Lỗi", "Đã xảy ra lỗi trong quá trình xác minh. Vui lòng thử lại.");
+    }
   };
   return (
     <View style={styles.container}>

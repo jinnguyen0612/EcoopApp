@@ -1,14 +1,28 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import {Button} from '../components/Button';
 import {InputPassword, InputPhone, InputText} from '../components/Input';
+import AuthContext from '../context/AuthProvider';
+import DataStorage from '../utillity/DataStorage';
 
 export default function Referral({ navigation }) {
 
   const [referralPhone, setReferralPhone] = useState("");
+  const { setIsLogin } = useContext(AuthContext);
+  
+  const handleSkip = async () =>{
+    const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
+    const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
+    (userInfo.data[0].status_verify ===0
+    )?(
+      navigation.navigate('VerifyCode')
+    ):(
+      setIsLogin(true)
+    )
+  }
 
 
 
@@ -33,6 +47,10 @@ export default function Referral({ navigation }) {
                 <Button title={'Xác nhận'}/>
             </View>
         </View>
+
+        <TouchableOpacity onPress={handleSkip}>
+          <Text style={styles.subLabel}>Bỏ qua</Text>
+        </TouchableOpacity>
 
       </View>
       <StatusBar style="auto" />
@@ -69,6 +87,12 @@ const styles = StyleSheet.create({
     marginBottom:10,
     marginHorizontal:46
   },
-
+  subLabel:{
+    textAlign:'center',
+    marginVertical:10,
+    fontSize:16,
+    fontWeight:'600',
+    color:'#9795A4',
+  }
 
 });
