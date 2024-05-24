@@ -35,43 +35,42 @@ export default function Login({ navigation }) {
   const handleLogin = async () => {
     try {
       const res = await login(payload);
-  
+
       if (res) {
         const { data } = res;
         let decoded = jwtDecode(data.access_token);
-  
+
         if (data.message === "success") {
-          console.log(decoded);
-          if(decoded.data[0].status_account===1){
+          if (decoded.data[0].status_account === 1) {
             await DataStorage.SetDataStorage([
-            { key: "@accessToken", value: data.access_token },
-            { key: "@userInfo", value: decoded },
-          ]);
-  
-          const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
-          const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
-  
-          Alert.alert("Thành công", "Đăng nhập thành công", [
-            {
-              text: "Ok",
-              onPress: () => {
-                
-                userInfo.data[0].status_verify ===0?
-                (
-                  navigation.navigate('VerifyCode')
-                ):(
-                    setIsLogin(true)
-                )
-              },
-              style: "cancel",
-            },
-          ]);
-          }else if(decoded.data[0].status_account===0){
-            Alert.alert("Thông báo", "Tài khoản này đã bị khóa. Vui lòng liên hệ CSKH để biết thêm thông tin", [
-              { text: "OK", onPress: () => console.log("Đã nhấn OK") },
+              { key: "@accessToken", value: data.access_token },
+              { key: "@userInfo", value: decoded },
             ]);
+
+            const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
+            const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
+
+            Alert.alert("Thành công", "Đăng nhập thành công", [
+              {
+                text: "Ok",
+                onPress: () => {
+                  {
+                    console.log(userInfo.data[0])
+                    userInfo.data[0].status_verify === 0
+                      ? navigation.navigate("VerifyCode")
+                      : setIsLogin(true);
+                  }
+                },
+                style: "cancel",
+              },
+            ]);
+          } else if (decoded.data[0].status_account === 0) {
+            Alert.alert(
+              "Thông báo",
+              "Tài khoản này đã bị khóa. Vui lòng liên hệ CSKH để biết thêm thông tin",
+              [{ text: "OK", onPress: () => console.log("Đã nhấn OK") }]
+            );
           }
-          
         } else if (data.message === "fails") {
           Alert.alert("Thông báo", "Đăng nhập thất bại", [
             {
@@ -87,7 +86,7 @@ export default function Login({ navigation }) {
       console.error("Lỗi đăng nhập: ", error);
     }
   };
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
