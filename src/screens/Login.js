@@ -55,7 +55,7 @@ export default function Login({ navigation }) {
                 text: "Ok",
                 onPress: () => {
                   {
-                    console.log(userInfo.data[0])
+                    console.log(userInfo.data[0]);
                     userInfo.data[0].status_verify === 0
                       ? navigation.navigate("VerifyCode")
                       : setIsLogin(true);
@@ -71,14 +71,17 @@ export default function Login({ navigation }) {
               [{ text: "OK", onPress: () => console.log("Đã nhấn OK") }]
             );
           }
-        } else if (data.message === "fails") {
-          Alert.alert("Thông báo", "Đăng nhập thất bại", [
+        }
+        if (data.message === "wrong") {
+          Alert.alert("Thông báo", "Sai password", [
             {
               text: "Hủy",
-              onPress: () => console.log("Đã nhấn hủy"),
+              onPress: () => {
+                setEmail("");
+                setPassword("");
+              },
               style: "cancel",
             },
-            { text: "OK", onPress: () => console.log("Đã nhấn OK") },
           ]);
         }
       }

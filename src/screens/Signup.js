@@ -10,7 +10,7 @@ import {
   TextInput,
   TouchableOpacity,
   Dimensions,
-  ToastAndroid,
+  Alert,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "../components/Button";
@@ -26,19 +26,65 @@ export default function Signup({ navigation }) {
   const [confirmPasswordHide, setConfirmPasswordHide] = useState(true);
 
   const register = async () => {
-    await axios.post(axios.defaults.baseURL + "/collaborator/register", {
-      phone: phone,
-      email: email,
-      name: name,
-      password: password,
-    }).then((res) => {
-      if (res && res.data.message === "success to register") {
-        ToastAndroid.show("Register Successfully", ToastAndroid.SHORT);
-        navigation.navigate("Login");
-      } else {
-        ToastAndroid.show("Register Unsuccessfully", ToastAndroid.SHORT);
-      }
-    });
+    await axios
+      .post(axios.defaults.baseURL + "/collaborator/register", {
+        phone: phone,
+        email: email,
+        name: name,
+        password: password,
+      })
+      .then((res) => {
+        if (res) {
+          if (res.data.message === "success") {
+            Alert.alert("Thành công", "Đăng ký tài khoản thành công", [
+              {
+                text: "Ok",
+                onPress: () => {
+                  {
+                    navigation.navigate("Login");
+                  }
+                },
+                style: "cancel",
+              },
+            ]);
+            navigation.navigate("Login");
+          }
+          if (res.data.message === "fails") {
+            Alert.alert("Thất bại", "Đăng nhập thất bại", [
+              {
+                text: "Ok",
+                onPress: () => {
+                  {
+                    setEmail("");
+                    setName("");
+                    setPhone("");
+                    setPassword("");
+                    setConfirmPassword("");
+                  }
+                },
+                style: "cancel",
+              },
+            ]);
+          }
+          if (res.data.message === "exits") {
+            Alert.alert("Thất bại", "Đã tồn tại email này", [
+              {
+                text: "Ok",
+                onPress: () => {
+                  {
+                    setEmail("");
+                    setName("");
+                    setPhone("");
+                    setPassword("");
+                    setConfirmPassword("");
+                  }
+                },
+                style: "cancel",
+              },
+            ]);
+          }
+        }
+      });
   };
   return (
     <KeyboardAwareScrollView style={styles.container}>
