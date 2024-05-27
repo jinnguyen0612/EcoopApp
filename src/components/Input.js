@@ -3,13 +3,13 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-export function InputText({label,placeholder,data,setData,editable=true}){
+export function InputText({label,placeholder,data,setData,editable=true,autoCap="sentences"}){
     return(
         <View>
             <Text style={styles.label}>
                 {label}
             </Text>
-            <TextInput value={data} onChangeText={setData} style={styles.inputAuth} placeholder={placeholder} editable={editable}/>
+            <TextInput value={data} onChangeText={setData} style={styles.inputAuth} placeholder={placeholder} editable={editable} autoCapitalize={autoCap}/>
         </View>
     )
 }
@@ -26,7 +26,8 @@ export function InputPassword({label,placeholder,data,setData,eyeStatus,setEyeSt
                     onChangeText={setData}
                     secureTextEntry={eyeStatus} 
                     style={[styles.inputAuth,styles.absolute,styles.password]} 
-                    placeholder={placeholder}/>
+                    placeholder={placeholder}
+                    autoCapitalize='none'/>
                 <TouchableOpacity style={[styles.absolute,styles.eye]} onPress={setEyeStatus}>
                 <FontAwesomeIcon icon={eyeStatus?faEye:faEyeSlash}/>
                 </TouchableOpacity>

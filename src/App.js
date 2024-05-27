@@ -1,6 +1,5 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { enableScreens } from "react-native-screens";
 import MyScreen from "./navigation/main";
 import { AuthContextProvider } from "./context/AuthProvider";
 

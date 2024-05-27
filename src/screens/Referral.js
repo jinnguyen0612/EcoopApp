@@ -11,20 +11,15 @@ import DataStorage from '../utillity/DataStorage';
 export default function Referral({ navigation }) {
 
   const [referralPhone, setReferralPhone] = useState("");
-  const { setIsLogin } = useContext(AuthContext);
+  const { setIsLogin,user } = useContext(AuthContext);
   
   const handleSkip = async () =>{
-    const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
-    const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
-    (userInfo.data[0].status_verify ===0
-    )?(
-      navigation.navigate('VerifyCode')
-    ):(
       setIsLogin(true)
-    )
   }
 
-
+  const handleConfirm = async () =>{
+    console.log(user);
+  }
 
 
   return (
@@ -44,7 +39,7 @@ export default function Referral({ navigation }) {
                 setData={setReferralPhone}
                 />
             <View style={{marginTop:20}}>
-                <Button title={'Xác nhận'}/>
+                <Button title={'Xác nhận'} onPress={handleConfirm}/>
             </View>
         </View>
 

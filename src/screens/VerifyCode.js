@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -8,6 +8,7 @@ import {
   Image,
   Dimensions,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 
 import {
@@ -24,12 +25,19 @@ const CELL_COUNT = 6;
 
 export default function VerifyCode({ navigation }) {
   const [value, setValue] = useState("");
+  const [countdown, setCountdown] = useState(60);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
   const handleVerify = async () => {
+    if(value==""){
+      Alert.alert("Cảnh báo",
+                  "Mã xác nhận không được để trống");
+      return;
+    }
     try {
       const response = await axios.post(`${axios.defaults.baseURL}/collaborator/verify`, {
         code: value,
@@ -51,19 +59,40 @@ export default function VerifyCode({ navigation }) {
               style: "cancel",
             },
           ]);
-        } else {
-          console.error("Thông tin người dùng không được lưu trữ đúng cách.");
-          Alert.alert("Lỗi", "Thông tin người dùng không có sẵn.");
         }
-      } else {
-        console.error("Xác minh thất bại: ", response.data.message);
-        Alert.alert("Lỗi", "Xác minh thất bại. Vui lòng thử lại.");
       }
     } catch (error) {
-      console.error("Lỗi xác minh: ", error);
-      Alert.alert("Lỗi", "Đã xảy ra lỗi trong quá trình xác minh. Vui lòng thử lại.");
+      if(error.response.status>=500){
+        Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ]);
+      } else{
+        Alert.alert("Lỗi", error.response.data.message, [
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ]);
+      }
     }
   };
+
+  useEffect(() => {
+    if (countdown > 0) {
+      const intervalId = setInterval(() => {
+        setCountdown(prevCountdown => prevCountdown - 1);
+      }, 1000);
+
+      return () => clearInterval(intervalId);
+    } else {
+      setIsButtonEnabled(true);
+    }
+  }, [countdown]);
+
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -92,9 +121,16 @@ export default function VerifyCode({ navigation }) {
             </Text>
           )}
         />
-        <View style={{ marginTop: 25 }}>
+        
+        <View style={{marginVertical:24}}>
           <Button title={"Xác nhận"} onPress={handleVerify} />
         </View>
+        <TouchableOpacity 
+          disabled={!isButtonEnabled}>
+          <Text style={{textAlign:'center',fontSize:18,color:isButtonEnabled?"#3F8CFF":"#9795A4",fontWeight:'400'}}>
+            {countdown!=0?countdown:''} Resend
+          </Text>
+        </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </View>

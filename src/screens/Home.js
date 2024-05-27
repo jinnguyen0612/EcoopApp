@@ -2,17 +2,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { Order } from '../components/Order';
 import { Button } from '../components/Button';
 import { LineChartWithAverage } from '../components/Char';
 import { SideBar } from '../components/SideBar';
+import AuthContext from '../context/AuthProvider';
 
 export default function Home({ navigation }) {
+  const { user } = useContext(AuthContext);
+
     const [modalShow,setModalShow] = useState(false);
     const [ordersShow,setOrdersShow] = useState(true);
     const [hide,setHide] = useState(true);
+
+    // useEffect(() => {
+    //   console.log(user)
+    // }, []);
+
+
   return (
     <View style={styles.container}>
         {
@@ -29,7 +38,7 @@ export default function Home({ navigation }) {
             </View>
             <TouchableOpacity style={{flex:1,position:'relative'}} onPress={()=>navigation.navigate('Events')}>
                 <FontAwesomeIcon size={20} icon={faBell}/>
-                {hide?
+                {!hide?
                  <View style={{height:7,width:7,borderRadius:5,backgroundColor:'red',position:'absolute',left:12}}></View>
                 : <></>
                 }

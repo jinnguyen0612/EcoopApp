@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
+import AuthContext from '../context/AuthProvider';
 
 export function SideBar({ navigation,onClose }) {
+    const { user,logout } = useContext(AuthContext);
+    
+    const getInitial = (name) => {
+        const words = name.trim().split(' ');
+        const lastName = words[words.length - 1];
+        return lastName ? lastName.charAt(0).toUpperCase() : '';
+    };
+
     return (
         <>
             <TouchableOpacity style={styles.background} onPress={onClose}>
             </TouchableOpacity>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
-                    <Image style={styles.avt} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSrHTF4m60XB-kU3nhuGEfBxNjTwrmDO2tHpTdabG6Ww&s' }} />
-                    <Text style={styles.menuTitle}>Phan Đăng Khoa</Text>
+                    <>
+                    {user.avatar ? (
+                        <Image style={styles.avt} source={{uri: user.avatar}} />
+                    ) : (
+                        <View style={styles.placeholder}>
+                            <Text style={styles.initial}>{getInitial(user.name_collaborator)}</Text>
+                        </View>
+                    )}
+                    </>
+                    {/* <Image style={styles.avt} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSrHTF4m60XB-kU3nhuGEfBxNjTwrmDO2tHpTdabG6Ww&s' }} /> */}
+                    <Text style={styles.menuTitle}>{user.name_collaborator}</Text>
                     <Text style={styles.menuSubTitle}>Cộng tác viên</Text>
 
                 </View>
@@ -29,7 +47,7 @@ export function SideBar({ navigation,onClose }) {
                     
                 </View>
                 <View style={styles.bottomMenu}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={logout}>
                         <Text style={styles.bottomMenuItem}>Đăng xuất</Text>
                     </TouchableOpacity>
                 </View>
@@ -62,6 +80,18 @@ const styles = StyleSheet.create({
         width: 80,
         borderRadius: 40,
         overflow: 'hidden',
+    },
+    placeholder: {
+        height: 80,
+        width: 80,
+        borderRadius: 40,
+        backgroundColor: '#fff', // Đổi màu nền khác trắng, ví dụ: màu xanh dương
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    initial: {
+        fontSize: 32,
+        color: '#3F8CFF',
     },
     menuTitle:{
         fontSize: 24,

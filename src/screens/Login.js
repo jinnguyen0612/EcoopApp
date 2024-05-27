@@ -20,7 +20,7 @@ import AuthContext from "../context/AuthProvider";
 import { useToast } from "react-native-toast-notifications";
 
 export default function Login({ navigation }) {
-  const { setIsLogin, login } = useContext(AuthContext);
+  const { setIsLogin, login,user,fetchUserData } = useContext(AuthContext);
   const toast = useToast();
 
   const [email, setEmail] = useState("");
@@ -32,10 +32,24 @@ export default function Login({ navigation }) {
     password: password,
   };
 
+  // useEffect(() => {
+  //   console.log(user)
+  // }, []);
+
+
   const handleLogin = async () => {
+    if(email==""){
+      Alert.alert("Cảnh báo",
+                  "Email không được để trống");
+      return;
+    }
+    if(!password){
+      Alert.alert("Cảnh báo","Password không được để trống");
+      return;
+    }
+    
     try {
       const res = await login(payload);
-
       if (res) {
         const { data } = res;
         let decoded = jwtDecode(data.access_token);
@@ -46,7 +60,6 @@ export default function Login({ navigation }) {
               { key: "@accessToken", value: data.access_token },
               { key: "@userInfo", value: decoded },
             ]);
-
             const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
             const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
 
@@ -55,7 +68,6 @@ export default function Login({ navigation }) {
                 text: "Ok",
                 onPress: () => {
                   {
-                    console.log(userInfo.data[0]);
                     userInfo.data[0].status_verify === 0
                       ? navigation.navigate("VerifyCode")
                       : setIsLogin(true);
@@ -68,25 +80,36 @@ export default function Login({ navigation }) {
             Alert.alert(
               "Thông báo",
               "Tài khoản này đã bị khóa. Vui lòng liên hệ CSKH để biết thêm thông tin",
-              [{ text: "OK", onPress: () => console.log("Đã nhấn OK") }]
+              [{ text: "OK"}]
             );
           }
         }
         if (data.message === "wrong") {
-          Alert.alert("Thông báo", "Sai password", [
+          Alert.alert("Thông báo", "Sai email hoặc password", [
             {
-              text: "Hủy",
-              onPress: () => {
-                setEmail("");
-                setPassword("");
-              },
+              text: "OK",
               style: "cancel",
             },
           ]);
         }
       }
     } catch (error) {
-      console.error("Lỗi đăng nhập: ", error);
+      if(error.response.status>=500){
+        Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ]);
+      } else{
+        Alert.alert("Lỗi", error.response.data.message, [
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ]);
+      }
+      
     }
   };
 
@@ -103,6 +126,7 @@ export default function Login({ navigation }) {
             label={"Email hoặc số điện thoại của bạn"}
             data={email}
             setData={setEmail}
+            autoCap="none"
           />
 
           <InputPassword
@@ -111,6 +135,7 @@ export default function Login({ navigation }) {
             setData={setPassword}
             eyeStatus={passwordHide}
             setEyeStatus={() => setPasswordHide(!passwordHide)}
+            autoCap="none"
           />
 
           <TouchableOpacity
