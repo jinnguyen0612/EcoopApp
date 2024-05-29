@@ -64,10 +64,12 @@ export default function Profile({ navigation }) {
           Alert.alert(
             "Thành công",
             "Đã cập nhật thành công thông tin cộng tác viên",
-            {
-              text: "OK",
-              style: "cancel",
-            }
+            [
+              {
+                text: "OK",
+                style: "cancel",
+              },
+            ]
           );
           DataStorage.SetDataStorage([
             { key: "@userInfo", value: response.data.data },

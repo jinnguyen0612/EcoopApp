@@ -32,7 +32,6 @@ export default function Login({ navigation }) {
     password: password,
   };
 
-
   const handleLogin = async () => {
     if (email == "") {
       Alert.alert("Cảnh báo", "Email không được để trống");
@@ -68,11 +67,9 @@ export default function Login({ navigation }) {
                     //   : navigation.navigate("Referral");
                     if (userInfo.data[0].status_verify === 0) {
                       navigation.navigate("VerifyCode");
-                    }
-                    if (userInfo.data[0].presenter_phone) {
+                    } else if (userInfo.data[0].presenter_phone) {
                       setIsLogin(true);
-                    }
-                    if (!userInfo.data[0].presenter_phone) {
+                    } else if (!userInfo.data[0].presenter_phone) {
                       navigation.navigate("Referral");
                     }
                   }
