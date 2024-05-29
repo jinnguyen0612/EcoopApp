@@ -33,15 +33,17 @@ export default function VerifyCode({ navigation }) {
     setValue,
   });
   const handleVerify = async () => {
-    if(value==""){
-      Alert.alert("Cảnh báo",
-                  "Mã xác nhận không được để trống");
+    if (value == "") {
+      Alert.alert("Cảnh báo", "Mã xác nhận không được để trống");
       return;
     }
     try {
-      const response = await axios.post(`${axios.defaults.baseURL}/collaborator/verify`, {
-        code: value,
-      });
+      const response = await axios.post(
+        `${axios.defaults.baseURL}/collaborator/verify`,
+        {
+          code: value,
+        }
+      );
 
       if (response && response.data.message === "success") {
         const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
@@ -62,14 +64,14 @@ export default function VerifyCode({ navigation }) {
         }
       }
     } catch (error) {
-      if(error.response.status>=500){
+      if (error.response.status >= 500) {
         Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
           {
             text: "OK",
             style: "cancel",
           },
         ]);
-      } else{
+      } else {
         Alert.alert("Lỗi", error.response.data.message, [
           {
             text: "OK",
@@ -83,7 +85,7 @@ export default function VerifyCode({ navigation }) {
   useEffect(() => {
     if (countdown > 0) {
       const intervalId = setInterval(() => {
-        setCountdown(prevCountdown => prevCountdown - 1);
+        setCountdown((prevCountdown) => prevCountdown - 1);
       }, 1000);
 
       return () => clearInterval(intervalId);
@@ -91,7 +93,6 @@ export default function VerifyCode({ navigation }) {
       setIsButtonEnabled(true);
     }
   }, [countdown]);
-
 
   return (
     <View style={styles.container}>
@@ -121,14 +122,20 @@ export default function VerifyCode({ navigation }) {
             </Text>
           )}
         />
-        
-        <View style={{marginVertical:24}}>
+
+        <View style={{ marginVertical: 24 }}>
           <Button title={"Xác nhận"} onPress={handleVerify} />
         </View>
-        <TouchableOpacity 
-          disabled={!isButtonEnabled}>
-          <Text style={{textAlign:'center',fontSize:18,color:isButtonEnabled?"#3F8CFF":"#9795A4",fontWeight:'400'}}>
-            {countdown!=0?countdown:''} Resend
+        <TouchableOpacity disabled={!isButtonEnabled}>
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 18,
+              color: isButtonEnabled ? "#3F8CFF" : "#9795A4",
+              fontWeight: "400",
+            }}
+          >
+            {countdown != 0 ? countdown : ""} Resend
           </Text>
         </TouchableOpacity>
       </View>

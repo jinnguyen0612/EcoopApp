@@ -20,7 +20,7 @@ import AuthContext from "../context/AuthProvider";
 import { useToast } from "react-native-toast-notifications";
 
 export default function Login({ navigation }) {
-  const { setIsLogin, login,user,fetchUserData } = useContext(AuthContext);
+  const { setIsLogin, login, user, fetchUserData } = useContext(AuthContext);
   const toast = useToast();
 
   const [email, setEmail] = useState("");
@@ -36,18 +36,16 @@ export default function Login({ navigation }) {
   //   console.log(user)
   // }, []);
 
-
   const handleLogin = async () => {
-    if(email==""){
-      Alert.alert("Cảnh báo",
-                  "Email không được để trống");
+    if (email == "") {
+      Alert.alert("Cảnh báo", "Email không được để trống");
       return;
     }
-    if(!password){
-      Alert.alert("Cảnh báo","Password không được để trống");
+    if (!password) {
+      Alert.alert("Cảnh báo", "Password không được để trống");
       return;
     }
-    
+
     try {
       const res = await login(payload);
       if (res) {
@@ -68,9 +66,15 @@ export default function Login({ navigation }) {
                 text: "Ok",
                 onPress: () => {
                   {
-                    userInfo.data[0].status_verify === 0
-                      ? navigation.navigate("VerifyCode")
-                      : setIsLogin(true);
+                    // userInfo.data[0].status_verify === 0
+                    //   ? navigation.navigate("VerifyCode")
+                    //   : navigation.navigate("Referral");
+                    if (userInfo.data[0].status_verify === 0) {
+                      navigation.navigate("VerifyCode");
+                    }
+                    if (userInfo.data[0].presenter_phone) {
+                      setIsLogin(true);
+                    }
                   }
                 },
                 style: "cancel",
@@ -80,7 +84,7 @@ export default function Login({ navigation }) {
             Alert.alert(
               "Thông báo",
               "Tài khoản này đã bị khóa. Vui lòng liên hệ CSKH để biết thêm thông tin",
-              [{ text: "OK"}]
+              [{ text: "OK" }]
             );
           }
         }
@@ -94,14 +98,14 @@ export default function Login({ navigation }) {
         }
       }
     } catch (error) {
-      if(error.response.status>=500){
+      if (error.response.status >= 500) {
         Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
           {
             text: "OK",
             style: "cancel",
           },
         ]);
-      } else{
+      } else {
         Alert.alert("Lỗi", error.response.data.message, [
           {
             text: "OK",
@@ -109,7 +113,6 @@ export default function Login({ navigation }) {
           },
         ]);
       }
-      
     }
   };
 

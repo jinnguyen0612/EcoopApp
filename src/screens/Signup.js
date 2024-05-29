@@ -17,7 +17,6 @@ import { Button } from "../components/Button";
 import { InputPassword, InputPhone, InputText } from "../components/Input";
 import axios from "../context/axios";
 
-
 export default function Signup({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -41,59 +40,52 @@ export default function Signup({ navigation }) {
     const re = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
     return re.test(password);
   };
-  
-  
 
   const register = async () => {
     setPhone(phone.trim());
-    if(phone==""){
-      Alert.alert("Cảnh báo",
-                  "Số điện thoại không được để trống");
+    if (phone == "") {
+      Alert.alert("Cảnh báo", "Số điện thoại không được để trống");
       return;
     }
-    if(!validatePhoneNumber(phone)){
-      Alert.alert("Cảnh báo",
-                  "Số điện thoại không đúng định dạng");
+    if (!validatePhoneNumber(phone)) {
+      Alert.alert("Cảnh báo", "Số điện thoại không đúng định dạng");
       return;
     }
-    if(name==""){
-      Alert.alert("Cảnh báo",
-                  "Tên không được để trống");
+    if (name == "") {
+      Alert.alert("Cảnh báo", "Tên không được để trống");
       return;
     }
-    if(email==""){
-      Alert.alert("Cảnh báo",
-                  "Email không được để trống");
+    if (email == "") {
+      Alert.alert("Cảnh báo", "Email không được để trống");
       return;
     }
-    if(!validateEmail(email)){
-      Alert.alert("Cảnh báo",
-                  "Email không đúng định dạng");
+    if (!validateEmail(email)) {
+      Alert.alert("Cảnh báo", "Email không đúng định dạng");
       return;
     }
-    if(password==""){
-      Alert.alert("Cảnh báo",
-                  "Mật khẩu không được để trống");
+    if (password == "") {
+      Alert.alert("Cảnh báo", "Mật khẩu không được để trống");
       return;
     }
-    if(!validatePassword(password)){
-      Alert.alert("Cảnh báo",
-                  "Mật khẩu không đủ mạnh. Yêu cầu mật khẩu tối thiểu 8 ký tự, có ít nhất 1 chữ hoa, 1 chữ thường, và 1 con số");
+    if (!validatePassword(password)) {
+      Alert.alert(
+        "Cảnh báo",
+        "Mật khẩu không đủ mạnh. Yêu cầu mật khẩu tối thiểu 8 ký tự, có ít nhất 1 chữ hoa, 1 chữ thường, và 1 con số"
+      );
       return;
     }
-    if(confirmPassword!=password){
-      Alert.alert("Cảnh báo",
-                  "Xác nhận mật khẩu không giống mật khẩu");
+    if (confirmPassword != password) {
+      Alert.alert("Cảnh báo", "Xác nhận mật khẩu không giống mật khẩu");
       return;
     }
     try {
-      const response = await axios.post('/collaborator/register', {
-        phone: "0"+phone,
+      const response = await axios.post("/collaborator/register", {
+        phone: "0" + phone,
         email: email.trim().toLowerCase(),
         name: name.trim(),
         password: password,
       });
-  
+
       if (response.data.message === "success") {
         Alert.alert("Thành công", "Đăng ký tài khoản thành công", [
           {
@@ -104,14 +96,14 @@ export default function Signup({ navigation }) {
         ]);
       } //flag
     } catch (error) {
-      if(error.response.status>=500){
+      if (error.response.status >= 500) {
         Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
           {
             text: "OK",
             style: "cancel",
           },
         ]);
-      } else{
+      } else {
         Alert.alert("Lỗi", error.response.data.message, [
           {
             text: "OK",
@@ -121,7 +113,6 @@ export default function Signup({ navigation }) {
       }
     }
   };
-
 
   return (
     <KeyboardAwareScrollView style={styles.container}>
@@ -139,9 +130,19 @@ export default function Signup({ navigation }) {
             setData={setPhone}
           />
 
-          <InputText label={"Tên của bạn"} data={name} setData={setName} autoCap="words"/>
+          <InputText
+            label={"Tên của bạn"}
+            data={name}
+            setData={setName}
+            autoCap="words"
+          />
 
-          <InputText label={"Email"} data={email} setData={setEmail} autoCap="none"/>
+          <InputText
+            label={"Email"}
+            data={email}
+            setData={setEmail}
+            autoCap="none"
+          />
 
           <InputPassword
             label={"Mật khẩu"}
