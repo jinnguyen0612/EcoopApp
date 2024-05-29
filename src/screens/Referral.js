@@ -21,7 +21,7 @@ import axios from "../context/axios";
 export default function Referral({ navigation }) {
   const { setIsLogin, user } = useContext(AuthContext);
   const [referralPhone, setReferralPhone] = useState("");
-  const email = user.email_collaborator ? user.email_collaborator : "";
+
   const handleSkip = async () => {
     setIsLogin(true);
   };
@@ -43,6 +43,9 @@ export default function Referral({ navigation }) {
   const handleConfirm = async () => {
     if (checkValidate() === true) {
       try {
+        const storedData = DataStorage.GetDataStorage(["@userInfo"]);
+        const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
+        let email = userInfo.data[0].email_collaborator;
         const respsonse = await axios.post("/collaborator/presenter-phone", {
           phone: "0" + referralPhone,
           email: email,

@@ -75,6 +75,9 @@ export default function Login({ navigation }) {
                     if (userInfo.data[0].presenter_phone) {
                       setIsLogin(true);
                     }
+                    if (!userInfo.data[0].presenter_phone) {
+                      navigation.navigate("Referral");
+                    }
                   }
                 },
                 style: "cancel",
