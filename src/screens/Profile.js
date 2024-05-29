@@ -66,7 +66,6 @@ export default function Profile({ navigation }) {
             "Đã cập nhật thành công thông tin cộng tác viên",
             {
               text: "OK",
-              onPress: () => {},
               style: "cancel",
             }
           );

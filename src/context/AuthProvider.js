@@ -40,7 +40,7 @@ export const AuthContextProvider = ({ children }) => {
     await DataStorage.RemoveDataStorage(["@accessToken", "@userInfo"]);
   };
   return (
-    <AuthContext.Provider value={{ isLogin, setIsLogin, user, login, logout }}>
+    <AuthContext.Provider value={{ isLogin, setIsLogin, user, login, logout, setUser, fetchUserData }}>
       {children}
     </AuthContext.Provider>
   );

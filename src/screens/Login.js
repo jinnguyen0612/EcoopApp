@@ -32,9 +32,6 @@ export default function Login({ navigation }) {
     password: password,
   };
 
-  // useEffect(() => {
-  //   console.log(user)
-  // }, []);
 
   const handleLogin = async () => {
     if (email == "") {

@@ -36,7 +36,7 @@ export function InputPassword({label,placeholder,data,setData,eyeStatus,setEyeSt
     )
 }
 
-export function InputPhone({label,placeholder,data,setData}){
+export function InputPhone({label,placeholder,data,setData,editable=true}){
     return(
         <View>
             <Text style={styles.label}>
@@ -44,7 +44,7 @@ export function InputPhone({label,placeholder,data,setData}){
             </Text>
             <View style={styles.flex}>
                 <Text style={[styles.inputPhone,{flex:2,borderWidth:1,marginRight:16,color:'#9795A4',borderColor:'#bdbdbd'}]}>+84</Text>
-                <TextInput value={data} onChangeText={setData} keyboardType='number-pad' style={[styles.inputPhone,{flex:6}]} placeholder={placeholder} placeholderTextColor={'#d1d1d1'}/>
+                <TextInput editable={editable} value={data} onChangeText={setData} keyboardType='number-pad' style={[styles.inputPhone,{flex:6}]} placeholder={placeholder} placeholderTextColor={'#d1d1d1'}/>
             </View>
         </View>
     )
