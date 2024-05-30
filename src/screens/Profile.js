@@ -19,7 +19,7 @@ import axios from "../context/axios";
 import DataStorage from "../utillity/DataStorage";
 
 export default function Profile({ navigation }) {
-  const { user, fetchUserData } = useContext(AuthContext);
+  const { user, fetchUserData,setUser } = useContext(AuthContext);
 
   const [name, setName] = useState(user.name_collaborator);
   const [email, setEmail] = useState(user.email_collaborator);
@@ -71,10 +71,11 @@ export default function Profile({ navigation }) {
               },
             ]
           );
-          DataStorage.SetDataStorage([
-            { key: "@userInfo", value: response.data.data },
+          const updatedUser = { ...user, name_collaborator: name, email_collaborator: email };
+          await DataStorage.SetDataStorage([
+            { key: "@userInfo", value: JSON.stringify({ data: [updatedUser] }) },
           ]);
-          fetchUserData();
+          setUser(updatedUser);
         }
       } catch (error) {
         if (error.response.status >= 500) {
@@ -95,6 +96,7 @@ export default function Profile({ navigation }) {
       }
     }
   };
+  
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.header}>

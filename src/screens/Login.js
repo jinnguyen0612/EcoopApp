@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
   };
 
   const handleLogin = async () => {
-    if (email == "") {
+    if (email === "") {
       Alert.alert("Cảnh báo", "Email không được để trống");
       return;
     }
@@ -52,8 +52,10 @@ export default function Login({ navigation }) {
           if (decoded.data[0].status_account === 1) {
             await DataStorage.SetDataStorage([
               { key: "@accessToken", value: data.access_token },
-              { key: "@userInfo", value: decoded },
+              { key: "@userInfo", value: JSON.stringify(decoded) },
             ]);
+            await fetchUserData();
+
             const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
             const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
 
@@ -61,17 +63,12 @@ export default function Login({ navigation }) {
               {
                 text: "Ok",
                 onPress: () => {
-                  {
-                    // userInfo.data[0].status_verify === 0
-                    //   ? navigation.navigate("VerifyCode")
-                    //   : navigation.navigate("Referral");
-                    if (userInfo.data[0].status_verify === 0) {
-                      navigation.navigate("VerifyCode");
-                    } else if (userInfo.data[0].presenter_phone) {
-                      setIsLogin(true);
-                    } else if (!userInfo.data[0].presenter_phone) {
-                      navigation.navigate("Referral");
-                    }
+                  if (userInfo.data[0].status_verify === 0) {
+                    navigation.navigate("VerifyCode");
+                  } else if (userInfo.data[0].presenter_phone) {
+                    setIsLogin(true);
+                  } else if (!userInfo.data[0].presenter_phone) {
+                    navigation.navigate("Referral");
                   }
                 },
                 style: "cancel",

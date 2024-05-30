@@ -43,14 +43,11 @@ export default function Referral({ navigation }) {
   const handleConfirm = async () => {
     if (checkValidate() === true) {
       try {
-        const storedData = DataStorage.GetDataStorage(["@userInfo"]);
-        const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
-        let email = userInfo.data[0].email_collaborator;
+        let email = user.email;
         const respsonse = await axios.post("/collaborator/presenter-phone", {
           phone: "0" + referralPhone,
           email: email,
         });
-        console.log(user);
         if (respsonse.data.message === "success") {
           Alert.alert(
             "Thành công",

@@ -42,7 +42,13 @@ export default function ForgotPassword({ navigation }) {
           email: email,
         });
         if (response.data.message === "success") {
-          Alert.alert("Thành công", "Vui lòng kiểm tra email");
+          Alert.alert("Thành công", "Vui lòng kiểm tra email",[
+            {
+              text: "OK",
+              style: "cancel",
+              onPress: navigation.navigate('Login'),
+            },
+          ]);
           setEmail("");
         }
       } catch (error) {

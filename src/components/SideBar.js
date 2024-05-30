@@ -3,13 +3,17 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'rea
 import AuthContext from '../context/AuthProvider';
 
 export function SideBar({ navigation,onClose }) {
-    const { user,logout } = useContext(AuthContext);
+    const { user,logout,fetchUserData } = useContext(AuthContext);
     
     const getInitial = (name) => {
         const words = name.trim().split(' ');
         const lastName = words[words.length - 1];
         return lastName ? lastName.charAt(0).toUpperCase() : '';
     };
+
+    useEffect(() => {
+        fetchUserData();
+      }, [user]);
 
     return (
         <>

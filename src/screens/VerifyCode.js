@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -20,10 +20,12 @@ import {
 import { Button } from "../components/Button";
 import axios from "../context/axios";
 import DataStorage from "../utillity/DataStorage";
+import AuthContext from "../context/AuthProvider";
 
 const CELL_COUNT = 6;
 
 export default function VerifyCode({ navigation }) {
+  const {user} = useContext(AuthContext);
   const [value, setValue] = useState("");
   const [countdown, setCountdown] = useState(60);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
@@ -93,21 +95,23 @@ export default function VerifyCode({ navigation }) {
       setIsButtonEnabled(true);
     }
   }, [countdown]);
-  const handleResend = () => {
+  const handleResend = async () => {
+    console.log(user)
     try {
-      let res = axios.post(`${axios.defaults.baseURL}/collaborator/resend`, {
-        email: email,
+      let res = await axios.post(`${axios.defaults.baseURL}/collaborator/resend`, {
+        email: user.email_collaborator,
       });
-      if (res.data.message === "success") {
+      console.log(res);
+      if (res.data.message == "success") {
         Alert.alert("Thành công", "Gửi lại mã Xác minh thành công", [
           {
             text: "Ok",
-            onPress: () => navigation.navigate("Referral"),
             style: "cancel",
           },
         ]);
       }
     } catch (error) {
+
       if (error.response.status >= 500) {
         Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
           {

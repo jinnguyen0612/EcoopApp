@@ -34,11 +34,13 @@ export const AuthContextProvider = ({ children }) => {
       payload,
     });
   };
+
   const logout = async () => {
     setIsLogin(false);
     setUser(null);
     await DataStorage.RemoveDataStorage(["@accessToken", "@userInfo"]);
   };
+
   return (
     <AuthContext.Provider value={{ isLogin, setIsLogin, user, login, logout, setUser, fetchUserData }}>
       {children}
