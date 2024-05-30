@@ -93,7 +93,38 @@ export default function VerifyCode({ navigation }) {
       setIsButtonEnabled(true);
     }
   }, [countdown]);
-
+  const handleResend = () => {
+    try {
+      let res = axios.post(`${axios.defaults.baseURL}/collaborator/resend`, {
+        email: email,
+      });
+      if (res.data.message === "success") {
+        Alert.alert("Thành công", "Gửi lại mã Xác minh thành công", [
+          {
+            text: "Ok",
+            onPress: () => navigation.navigate("Referral"),
+            style: "cancel",
+          },
+        ]);
+      }
+    } catch (error) {
+      if (error.response.status >= 500) {
+        Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ]);
+      } else {
+        Alert.alert("Lỗi", error.response.data.message, [
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ]);
+      }
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -126,7 +157,7 @@ export default function VerifyCode({ navigation }) {
         <View style={{ marginVertical: 24 }}>
           <Button title={"Xác nhận"} onPress={handleVerify} />
         </View>
-        <TouchableOpacity disabled={!isButtonEnabled}>
+        <TouchableOpacity disabled={!isButtonEnabled} onPress={handleResend}>
           <Text
             style={{
               textAlign: "center",
