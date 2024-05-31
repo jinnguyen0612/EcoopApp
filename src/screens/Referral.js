@@ -43,7 +43,7 @@ export default function Referral({ navigation }) {
   const handleConfirm = async () => {
     if (checkValidate() === true) {
       try {
-        let email = user.email;
+        let email = user.email_collaborator;
         const respsonse = await axios.post("/collaborator/presenter-phone", {
           phone: "0" + referralPhone,
           email: email,

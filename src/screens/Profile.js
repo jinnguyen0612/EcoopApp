@@ -19,19 +19,21 @@ import axios from "../context/axios";
 import DataStorage from "../utillity/DataStorage";
 
 export default function Profile({ navigation }) {
-  const { user, fetchUserData,setUser } = useContext(AuthContext);
+  const { user, fetchUserData, setUser } = useContext(AuthContext);
 
   const [name, setName] = useState(user.name_collaborator);
   const [email, setEmail] = useState(user.email_collaborator);
   const [phone, setPhone] = useState(user.phone.slice(1));
   const [position, setPosition] = useState("Cộng tác viên");
-  const [referral, setReferral] = useState(
-    user.presenter_phone ? user.presenter_phone : ""
-  );
+  const [referral, setReferral] = useState(user.presenter_phone);
   const [avt, setAvt] = useState(user.avatar);
   const validateEmail = (input) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(input).toLowerCase());
+  };
+  const validatePhoneNumber = (phoneNumber) => {
+    const re = /^[1-9]\d{8}$/;
+    return re.test(phoneNumber);
   };
   const getInitial = (name) => {
     const words = name.trim().split(" ");
@@ -51,6 +53,10 @@ export default function Profile({ navigation }) {
       Alert.alert("Cảnh báo", "Tên không được để trống");
       return false;
     }
+    if (referral !== "" && !validatePhoneNumber(referral)) {
+      Alert.alert("Cảnh báo", "Số điện thoại không đúng định dạng");
+      return false;
+    }
     return true;
   };
   const handleUpdate = async () => {
@@ -59,6 +65,8 @@ export default function Profile({ navigation }) {
         let response = await axios.put("/collaborator/update-collaborator", {
           name: name,
           email: email,
+          emailData: user.email_collaborator,
+          referral: "0" + referral,
         });
         if (response.data.message === "success") {
           Alert.alert(
@@ -71,9 +79,18 @@ export default function Profile({ navigation }) {
               },
             ]
           );
-          const updatedUser = { ...user, name_collaborator: name, email_collaborator: email };
+          const updatedUser = {
+            ...user,
+            name_collaborator: name,
+            email_collaborator: email,
+            presenter_phone: referral,
+            status_collaborator: 2,
+          };
           await DataStorage.SetDataStorage([
-            { key: "@userInfo", value: JSON.stringify({ data: [updatedUser] }) },
+            {
+              key: "@userInfo",
+              value: JSON.stringify({ data: [updatedUser] }),
+            },
           ]);
           setUser(updatedUser);
         }
@@ -96,7 +113,7 @@ export default function Profile({ navigation }) {
       }
     }
   };
-  
+
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.header}>
@@ -131,8 +148,18 @@ export default function Profile({ navigation }) {
       </View>
 
       <View style={styles.formContainer}>
-        <InputText label={"Tên"} data={name} setData={setName} autoCap="words"/>
-        <InputText label={"Email"} data={email} setData={setEmail} autoCap="none"/>
+        <InputText
+          label={"Tên"}
+          data={name}
+          setData={setName}
+          autoCap="words"
+        />
+        <InputText
+          label={"Email"}
+          data={email}
+          setData={setEmail}
+          autoCap="none"
+        />
         <InputPhone
           label={"Số diện thoại"}
           data={phone}
@@ -145,11 +172,11 @@ export default function Profile({ navigation }) {
           setData={setPosition}
           editable={false}
         />
-        <InputText
+        <InputPhone
           label={"Người giới thiệu"}
           data={referral}
           setData={setReferral}
-          editable={user.presenter_phone?true:false}
+          editable={!user.presenter_phone ? true : false}
         />
 
         <View style={{ marginTop: 25 }}>
