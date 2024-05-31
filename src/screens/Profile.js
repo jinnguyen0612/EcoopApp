@@ -131,8 +131,8 @@ export default function Profile({ navigation }) {
       </View>
 
       <View style={styles.formContainer}>
-        <InputText label={"Tên"} data={name} setData={setName} />
-        <InputText label={"Email"} data={email} setData={setEmail} />
+        <InputText label={"Tên"} data={name} setData={setName} autoCap="words"/>
+        <InputText label={"Email"} data={email} setData={setEmail} autoCap="none"/>
         <InputPhone
           label={"Số diện thoại"}
           data={phone}
@@ -149,7 +149,7 @@ export default function Profile({ navigation }) {
           label={"Người giới thiệu"}
           data={referral}
           setData={setReferral}
-          editable={false}
+          editable={user.presenter_phone?true:false}
         />
 
         <View style={{ marginTop: 25 }}>
