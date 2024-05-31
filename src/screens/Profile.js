@@ -19,14 +19,22 @@ import axios from "../context/axios";
 import DataStorage from "../utillity/DataStorage";
 
 export default function Profile({ navigation }) {
-  const { user, fetchUserData, setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const [name, setName] = useState(user.name_collaborator);
   const [email, setEmail] = useState(user.email_collaborator);
   const [phone, setPhone] = useState(user.phone.slice(1));
   const [position, setPosition] = useState("Cộng tác viên");
-  const [referral, setReferral] = useState(user.presenter_phone);
+  const [referral, setReferral] = useState(user.presenter_phone?user.presenter_phone.slice(1):"");
   const [avt, setAvt] = useState(user.avatar);
+
+  const btnEditDisable = ()=>{
+    if(name===user.name_collaborator && email===user.email_collaborator && (referral===""||referral===user.presenter_phone)){
+      return true;
+    }
+    return false;
+  }
+
   const validateEmail = (input) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(input).toLowerCase());
@@ -180,7 +188,7 @@ export default function Profile({ navigation }) {
         />
 
         <View style={{ marginTop: 25 }}>
-          <Button title={"Chỉnh sửa"} onPress={handleUpdate} />
+          <Button title={"Chỉnh sửa"} onPress={handleUpdate} disable={btnEditDisable}/>
         </View>
       </View>
 
