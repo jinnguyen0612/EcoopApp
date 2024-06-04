@@ -56,7 +56,7 @@ export default function Events({ navigation }){
                 day={'Today'}
                 time={'5:00 PM'}
                 timeLong={'4h'}/>
-              <View style={{height:110}}></View>
+              <View style={{height:140}}></View>
             </ScrollView>
             
             

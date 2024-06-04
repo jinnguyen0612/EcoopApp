@@ -11,6 +11,7 @@ import Referral from "../screens/Referral";
 import VerifyCode from "../screens/VerifyCode";
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
+import Affiliate from "../screens/Affiliate";
 
 
 const Stack = createNativeStackNavigator()
@@ -28,6 +29,7 @@ export default function MyScreen(){
                     <Stack.Screen name="Events" component={Events} options={{ headerShown: false, screenOrientation: 'portrait' }}/>
                     <Stack.Screen name="EventDetails" component={EventDetails} options={{ headerShown: false, screenOrientation: 'portrait' }}/>
                     <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false, screenOrientation: 'portrait' }}/>
+                    <Stack.Screen name="Affiliate" component={Affiliate} options={{ headerShown: false, screenOrientation: 'portrait' }}/>
                 
                 </>:
                 <>

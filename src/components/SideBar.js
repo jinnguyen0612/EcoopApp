@@ -39,7 +39,7 @@ export function SideBar({ navigation,onClose }) {
                     <TouchableOpacity onPress={()=>navigation.navigate('Profile')}>
                         <Text style={styles.menuItem}>Chỉnh sửa hồ sơ</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
+                    <TouchableOpacity onPress={()=>navigation.navigate('Affiliate')}>
                         <Text style={styles.menuItem}>Affiliate</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>navigation.navigate('Collaborator')}>

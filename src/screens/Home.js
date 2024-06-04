@@ -72,7 +72,7 @@ export default function Home({ navigation }) {
       </View>
 
       <View style={[styles.commissionContainer]}>
-        <Text style={styles.commissionTitle}>Hoa hồng nhận được hôm nay</Text>
+        <Text style={styles.commissionTitle}>Tổng hoa hồng nhận được</Text>
         <View style={{ flexDirection: "row" }}>
           <View style={styles.commissionLeft}>
             <Text style={styles.commissionMoney}>
@@ -189,7 +189,7 @@ export default function Home({ navigation }) {
             description={"092xxxxx29 đã mua hàng lúc 10:10"}
             status={"3"}
           />
-          <View style={{ height: 480 }}></View>
+          <View style={{ height: 520 }}></View>
         </ScrollView>
       ) : (
         <></>
