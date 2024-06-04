@@ -25,15 +25,21 @@ export default function Profile({ navigation }) {
   const [email, setEmail] = useState(user.email_collaborator);
   const [phone, setPhone] = useState(user.phone.slice(1));
   const [position, setPosition] = useState("Cộng tác viên");
-  const [referral, setReferral] = useState(user.presenter_phone?user.presenter_phone.slice(1):"");
+  const [referral, setReferral] = useState(
+    user.presenter_phone ? user.presenter_phone.slice(1) : ""
+  );
   const [avt, setAvt] = useState(user.avatar);
 
-  const btnEditDisable = ()=>{
-    if(name===user.name_collaborator && email===user.email_collaborator && (referral===""||referral===user.presenter_phone)){
+  const btnEditDisable = () => {
+    if (
+      name === user.name_collaborator &&
+      email === user.email_collaborator &&
+      (referral === "" || referral === user.presenter_phone)
+    ) {
       return true;
     }
     return false;
-  }
+  };
 
   const validateEmail = (input) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -91,7 +97,7 @@ export default function Profile({ navigation }) {
             ...user,
             name_collaborator: name,
             email_collaborator: email,
-            presenter_phone: referral,
+            presenter_phone: "0" + referral,
             status_collaborator: 2,
           };
           await DataStorage.SetDataStorage([
@@ -188,7 +194,11 @@ export default function Profile({ navigation }) {
         />
 
         <View style={{ marginTop: 25 }}>
-          <Button title={"Chỉnh sửa"} onPress={handleUpdate} disable={btnEditDisable}/>
+          <Button
+            title={"Chỉnh sửa"}
+            onPress={handleUpdate}
+            disable={btnEditDisable}
+          />
         </View>
       </View>
 

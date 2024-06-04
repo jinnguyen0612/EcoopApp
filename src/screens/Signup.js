@@ -79,12 +79,15 @@ export default function Signup({ navigation }) {
       return;
     }
     try {
-      const response = await axios.post("/collaborator/register", {
-        phone: "0" + phone,
-        email: email.trim().toLowerCase(),
-        name: name.trim(),
-        password: password,
-      });
+      const response = await axios.post(
+        `${axios.defaults.baseURL}/collaborator/register`,
+        {
+          phone: "0" + phone,
+          email: email.trim().toLowerCase(),
+          name: name.trim(),
+          password: password,
+        }
+      );
 
       if (response.data.message === "success") {
         Alert.alert("Thành công", "Đăng ký tài khoản thành công", [
