@@ -27,7 +27,7 @@ export default function Signup({ navigation }) {
   const [confirmPasswordHide, setConfirmPasswordHide] = useState(true);
 
   const validatePhoneNumber = (phoneNumber) => {
-    const re = /^[1-9]\d{8}$/;
+    const re = /^0\d{9}$/;
     return re.test(phoneNumber);
   };
 
@@ -37,7 +37,7 @@ export default function Signup({ navigation }) {
   };
 
   const validatePassword = (password) => {
-    const re = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+    const re = /^(?=.*[A-Z\d])[A-Za-z\d@$!%*?&]{6,}$/;
     return re.test(password);
   };
 
@@ -82,7 +82,7 @@ export default function Signup({ navigation }) {
       const response = await axios.post(
         `${axios.defaults.baseURL}/collaborator/register`,
         {
-          phone: "0" + phone,
+          phone: phone,
           email: email.trim().toLowerCase(),
           name: name.trim(),
           password: password,
@@ -126,11 +126,12 @@ export default function Signup({ navigation }) {
         <Text style={styles.titleForm}>Đăng ký</Text>
 
         <View style={styles.formContainer}>
-          <InputPhone
+          <InputText
             label={"Số điện thoại của bạn"}
-            placeholder={"92xxxxx29"}
+            placeholder={"092xxxxx29"}
             data={phone}
             setData={setPhone}
+            typeKeyboard={"number-pad"}
           />
 
           <InputText

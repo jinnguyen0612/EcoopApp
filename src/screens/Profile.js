@@ -23,10 +23,10 @@ export default function Profile({ navigation }) {
 
   const [name, setName] = useState(user.name_collaborator);
   const [email, setEmail] = useState(user.email_collaborator);
-  const [phone, setPhone] = useState(user.phone.slice(1));
+  const [phone, setPhone] = useState(user.phone);
   const [position, setPosition] = useState("Cộng tác viên");
   const [referral, setReferral] = useState(
-    user.presenter_phone ? user.presenter_phone.slice(1) : ""
+    user.presenter_phone ? user.presenter_phone : ""
   );
   const [avt, setAvt] = useState(user.avatar);
 
@@ -46,7 +46,7 @@ export default function Profile({ navigation }) {
     return re.test(String(input).toLowerCase());
   };
   const validatePhoneNumber = (phoneNumber) => {
-    const re = /^[1-9]\d{8}$/;
+    const re = /^0\d{9}$/;
     return re.test(phoneNumber);
   };
   const getInitial = (name) => {
@@ -74,13 +74,14 @@ export default function Profile({ navigation }) {
     return true;
   };
   const handleUpdate = async () => {
+    console.log(user.presenter_phone)
     if (checkValidate() === true) {
       try {
         let response = await axios.put("/collaborator/update-collaborator", {
           name: name,
           email: email,
           emailData: user.email_collaborator,
-          referral: "0" + referral,
+          referral: referral,
         });
         if (response.data.message === "success") {
           Alert.alert(
@@ -97,7 +98,7 @@ export default function Profile({ navigation }) {
             ...user,
             name_collaborator: name,
             email_collaborator: email,
-            presenter_phone: "0" + referral,
+            presenter_phone: referral,
             status_collaborator: 2,
           };
           await DataStorage.SetDataStorage([
@@ -174,11 +175,12 @@ export default function Profile({ navigation }) {
           setData={setEmail}
           autoCap="none"
         />
-        <InputPhone
+        <InputText
           label={"Số diện thoại"}
           data={phone}
           setData={setPhone}
           editable={false}
+          typeKeyboard={"number-pad"}
         />
         <InputText
           label={"Chức vụ"}
@@ -186,11 +188,13 @@ export default function Profile({ navigation }) {
           setData={setPosition}
           editable={false}
         />
-        <InputPhone
+        <InputText
           label={"Người giới thiệu"}
           data={referral}
           setData={setReferral}
-          editable={!user.presenter_phone ? true : false}
+          editable={(user.presenter_phone==="0"||user.presenter_phone===null) ? true : false}
+          typeKeyboard={"number-pad"}
+
         />
 
         <View style={{ marginTop: 25 }}>

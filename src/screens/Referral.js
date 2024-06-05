@@ -26,7 +26,7 @@ export default function Referral({ navigation }) {
     setIsLogin(true);
   };
   const validatePhoneNumber = (phoneNumber) => {
-    const re = /^[1-9]\d{8}$/;
+    const re = /^0\d{9}$/;
     return re.test(phoneNumber);
   };
   const checkValidate = () => {
@@ -45,7 +45,7 @@ export default function Referral({ navigation }) {
       try {
         let email = user.email_collaborator;
         const respsonse = await axios.post("/collaborator/presenter-phone", {
-          phone: "0" + referralPhone,
+          phone: referralPhone,
           email: email,
         });
         if (respsonse.data.message === "success") {
@@ -94,11 +94,12 @@ export default function Referral({ navigation }) {
         <Text style={styles.titleForm}>Người giới thiệu</Text>
 
         <View style={styles.formContainer}>
-          <InputPhone
+          <InputText
             label={"Số điện thoại"}
-            placeholder={"92xxxxx29"}
+            placeholder={"092xxxxx29"}
             data={referralPhone}
             setData={setReferralPhone}
+            typeKeyboard={"number-pad"}
           />
           <View style={{ marginTop: 20 }}>
             <Button title={"Xác nhận"} onPress={handleConfirm} />
