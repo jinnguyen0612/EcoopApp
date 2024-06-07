@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
-export function AffiliateItem({color,title,dateFrom,dateTo,money,image,user,onpress}){
+export function AffiliateItem({color,title,dateFrom,dateTo,money,image,user,onPress}){
     return (
-      <TouchableOpacity style={styles.flexRow} onPress={onpress}>
+      <TouchableOpacity style={styles.flexRow} onPress={onPress}>
         <View style={{ flex: 1, justifyContent: "center" }}>
           <View
             style={{

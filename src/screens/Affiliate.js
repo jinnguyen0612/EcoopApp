@@ -69,7 +69,7 @@ export default function Affiliate({ navigation }) {
         {listCampaign.map((item) => {
           return (
             <AffiliateItem
-              onpress={() =>
+              onPress={() =>
                 navigation.navigate("AffiliateDetails", { data: item })
               }
               color={"red"}

@@ -13,6 +13,7 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import Affiliate from "../screens/Affiliate";
 import AffiliateDetails from "../screens/AffiliateDetails";
+import WorkSpace from "../screens/WorkSpace";
 
 
 const Stack = createNativeStackNavigator()
@@ -57,6 +58,11 @@ export default function MyScreen(){
             <Stack.Screen
               name="AffiliateDetails"
               component={AffiliateDetails}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="WorkSpace"
+              component={WorkSpace}
               options={{ headerShown: false }}
             />
           </>
