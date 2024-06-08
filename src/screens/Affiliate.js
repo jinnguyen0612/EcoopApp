@@ -23,6 +23,8 @@ import { AffiliateItem } from "../components/AffiliateItem";
 import axios from "../context/axios";
 
 export default function Affiliate({ navigation }) {
+  const colors = ["red", "green", "blue", "yellow", "pink"];
+  let colorIndex = 0;
   const [listCampaign, setListCampaign] = useState([]);
   const parseTime = (dateString) => {
     // Tạo đối tượng Date từ chuỗi thời gian
@@ -37,6 +39,16 @@ export default function Affiliate({ navigation }) {
     const formattedDate = `${day}/${month}/${year}`;
     return formattedDate;
   };
+
+  function runColor(){
+    const color = colors[colorIndex];
+    if(colorIndex === colors.length-1){
+      colorIndex=0;
+    }else colorIndex++
+    return color;
+  }
+  
+
   const fetchListCampaign = async () => {
     try {
       let response = await axios.get(
@@ -72,7 +84,7 @@ export default function Affiliate({ navigation }) {
               onPress={() =>
                 navigation.navigate("AffiliateDetails", { data: item })
               }
-              color={"red"}
+              color={runColor()}
               title={item.name}
               money={item.tax + "%"}
               dateFrom={parseTime(item.start)}

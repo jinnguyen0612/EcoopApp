@@ -19,7 +19,7 @@ import DataStorage from "../utillity/DataStorage";
 import axios from "../context/axios";
 
 export default function Referral({ navigation }) {
-  const { setIsLogin, user } = useContext(AuthContext);
+  const { setIsLogin, user, fetchUserData } = useContext(AuthContext);
   const [referralPhone, setReferralPhone] = useState("");
 
   const handleSkip = async () => {
@@ -44,11 +44,18 @@ export default function Referral({ navigation }) {
     if (checkValidate() === true) {
       try {
         let email = user.email_collaborator;
-        const respsonse = await axios.post("/collaborator/presenter-phone", {
+        const response = await axios.post("/collaborator/presenter-phone", {
           phone: referralPhone,
           email: email,
         });
-        if (respsonse.data.message === "success") {
+        if (response.data.message === "success") {
+          const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
+          let userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
+          userInfo.data[0].presenter_phone = referralPhone;
+          await DataStorage.SetDataStorage([
+            { key: "@userInfo", value: JSON.stringify(userInfo) },
+          ]);
+          await fetchUserData();
           Alert.alert(
             "Thành công",
             "Thêm số điện thoại người giới thiệu thành công.",

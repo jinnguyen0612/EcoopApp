@@ -143,8 +143,8 @@ export default function WorkSpace({navigation}) {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'Cá nhân' },
-    { key: 'second', title: 'Team' },
+    { key: 'first', title: 'Của tôi' },
+    { key: 'second', title: 'Của nhóm' },
   ]);
 
   return (
@@ -158,7 +158,7 @@ export default function WorkSpace({navigation}) {
             </TouchableOpacity>
             <View style={{ flex: 10 }}>
                 <Text style={styles.headerTitle}>
-                    Chiến dịch của bạn
+                    Đơn hàng thành công
                 </Text>
             </View>
             <View style={{ flex: 1 }}></View>
