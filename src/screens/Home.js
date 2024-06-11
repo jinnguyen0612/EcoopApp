@@ -20,18 +20,89 @@ import { Button } from "../components/Button";
 import { LineChartWithAverage } from "../components/Char";
 import { SideBar } from "../components/SideBar";
 import AuthContext from "../context/AuthProvider";
+import axios from "../context/axios";
 
 export default function Home({ navigation }) {
   const { user } = useContext(AuthContext);
 
+  const [data, setData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [ordersShow, setOrdersShow] = useState(true);
   const [hide, setHide] = useState(true);
-
+  const [status, setStatus] = useState(false);
+  const [idCollaborator, setIdCollaborator] = useState("");
+  const fetchMoney = async () => {
+    let res = await axios.get(
+      `${axios.defaults.baseURL}/collaborator/get-by-id/${user.id_collaborator}`
+    );
+    if (res) {
+      setIdCollaborator(res.data.data[0].total_withdrawn);
+    }
+  };
+  useEffect(() => {
+    setInterval(() => {
+      fetchMoney();
+    }, 5000);
+  }, []);
   // useEffect(() => {
   //   console.log(user)
   // }, []);
+  const formatCurrency = (number) => {
+    // Chuyển số sang chuỗi và đảm bảo rằng nó có định dạng là số thập phân
+    const numberString = Number(number).toFixed(0);
 
+    // Thêm dấu phẩy ngăn cách hàng nghìn
+    const parts = numberString.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    // Trả về chuỗi đã định dạng
+    return parts.join(".");
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://ecoopglobal.mysapo.net/admin/orders.json",
+          {
+            auth: {
+              username: "9059b72869d54094aae39f7c7800ac33", // API Key
+              password: "09a67961520b42af90723498e5e512fe", // API Secret
+            },
+          }
+        );
+        if (response) {
+          setData(response.data.orders);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    // Gọi hàm fetchData để lấy dữ liệu khi component được render
+    fetchData();
+
+    // Thiết lập interval để cập nhật dữ liệu mỗi 1 giây (hoặc tần suất mong muốn)
+    const interval = setInterval(fetchData, 10000);
+
+    // Cleanup function để dừng interval khi component unmount
+    return () => clearInterval(interval);
+  }, []);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    // Định dạng ngày tháng năm giờ theo múi giờ Việt Nam (GMT+7)
+    const options = {
+      timeZone: "Asia/Ho_Chi_Minh",
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    const formattedDate = date.toLocaleString("vi-VN", options);
+    return formattedDate;
+  };
   return (
     <View style={styles.container}>
       {modalShow ? (
@@ -76,7 +147,7 @@ export default function Home({ navigation }) {
         <View style={{ flexDirection: "row" }}>
           <View style={styles.commissionLeft}>
             <Text style={styles.commissionMoney}>
-              {user.total_withdrawn ? user.total_withdrawn : 0}
+              {formatCurrency(idCollaborator)}
               <Text style={styles.moneyUnit}>đ</Text>
             </Text>
             <Text style={styles.commissionPercent}>Tăng 10%</Text>
@@ -87,7 +158,7 @@ export default function Home({ navigation }) {
               <LineChartWithAverage data={[10, 56, 0, 32, 19, 40]} />
             </View>
             <View>
-              <Button title={"Rút Ngay"} />
+              <Button title={"Rút Ngay"} onPress={fetchMoney} />
             </View>
           </View>
         </View>
@@ -108,7 +179,43 @@ export default function Home({ navigation }) {
 
       {ordersShow ? (
         <ScrollView style={styles.listOrder}>
-          <Order
+          {data
+            ? data.map((item, index) => {
+                const formattedPhoneNumber = item.phone.replace(/^\+84/, "");
+
+                // Chuyển chuỗi thành mảng ký tự để thay đổi phần tử
+                const phoneNumberArray = formattedPhoneNumber.split("");
+
+                // Thay đổi phần tử từ vị trí 3 đến vị trí 5 thành 'x'
+                for (let i = 2; i <= 4; i++) {
+                  phoneNumberArray[i] = "x";
+                }
+
+                // Chuyển mảng ký tự trở lại thành chuỗi
+                const maskedPhoneNumber = phoneNumberArray.join("");
+                if (
+                  item.financial_status === "paid" &&
+                  item.fulfillment_status === "fulfilled" &&
+                  item.status === "open" &&
+                  (item.landing_site !== "" || !item.landing_site)
+                ) {
+                  return (
+                    <Order
+                      avt={
+                        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+                      }
+                      code={item.id}
+                      money={formatCurrency(item.total_price)}
+                      description={`0${maskedPhoneNumber} đã mua hàng lúc ${formatDate(
+                        item.created_on
+                      )}`}
+                      status={"3"}
+                    />
+                  );
+                }
+              })
+            : "loading"}
+          {/* <Order
             avt={
               "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
             }
@@ -179,16 +286,7 @@ export default function Home({ navigation }) {
             money={"10000"}
             description={"092xxxxx29 đã mua hàng lúc 10:10"}
             status={"3"}
-          />
-          <Order
-            avt={
-              "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
-            }
-            code={"MHD123"}
-            money={"10000"}
-            description={"092xxxxx29 đã mua hàng lúc 10:10"}
-            status={"3"}
-          />
+          /> */}
           <View style={{ height: 520 }}></View>
         </ScrollView>
       ) : (

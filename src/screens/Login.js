@@ -41,7 +41,7 @@ export default function Login({ navigation }) {
       Alert.alert("Cảnh báo", "Password không được để trống");
       return;
     }
-
+    
     try {
       const res = await login(payload);
       if (res) {
