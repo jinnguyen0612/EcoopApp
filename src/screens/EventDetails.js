@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Dimensions, Linking } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { faAdd, faArrowLeft, faBlackboard, faClock } from '@fortawesome/free-solid-svg-icons';
 import { InputPhone, InputText } from '../components/Input';
@@ -9,9 +9,21 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {Team} from "../components/Team";
 import { Notify } from '../components/Notify';
 import ListAvt, { Avatar } from '../components/ListAvt';
+import AuthContext from '../context/AuthProvider';
+import QRCode from 'react-native-qrcode-svg';
 
 
 export default function EventDetails({ navigation }){
+    const { user } = useContext(AuthContext);
+
+    const openExternalLink = (url) => {
+        Linking.openURL(url).catch(err => console.error("Failed to open URL: ", err));
+      };
+
+      const handlePressLink = (url) => {
+        openExternalLink(url);
+      };
+
     const avtLink = [
         'https://1.bp.blogspot.com/-suPoIp0q7J8/YQP2BoeKQDI/AAAAAAAACEY/5yzEtTUsRpMggIHvBBPAxSmZ79nZKBCVgCLcBGAsYHQ/s750/7.jpg',
         'https://1.bp.blogspot.com/-WRVMxXn7gJg/YQP2AJK2zOI/AAAAAAAACD0/0MVArLtw9_89z_yBD6k8PCm9SGHd-cQYwCLcBGAsYHQ/s750/1.jpg',
@@ -56,8 +68,8 @@ export default function EventDetails({ navigation }){
             <View style={{flex:1,justifyContent:'flex-start'}}>
                 <Text style={styles.notifySubTitle}>Trưởng nhóm</Text>
                 <View style={[styles.flexRow,styles.leader]}>
-                    <Avatar link={'https://i.pinimg.com/1200x/f7/20/97/f720978ed61e6366ab03033a8ad88e05.jpg'}/>
-                    <Text style={styles.leaderName}>Sami Rafi</Text>
+                    <Avatar link={user.avatar}/>
+                    <Text style={styles.leaderName}>{user.name_collaborator}</Text>
 
 
                 </View>
@@ -72,22 +84,22 @@ export default function EventDetails({ navigation }){
 
         <View style={styles.groupContainer}>
             <View style={styles.group}>
-                <Text style={styles.notifySubTitle}>Link mời vào đội</Text>
-                <TouchableOpacity><Text style={styles.link}>https://meet.google.com/jwc-ciro-dip</Text></TouchableOpacity>
-            </View>
-            <View style={styles.group}>
                 <Text style={styles.notifySubTitle}>Liên kết bán hàng</Text>
-                <TouchableOpacity><Text style={styles.link}>https://meet.google.com/jwc-ciro-dip</Text></TouchableOpacity>
+                <TouchableOpacity onPress={()=>handlePressLink("https://firebasestorage.googleapis.com/v0/b/moviestreaming-a0fc2.appspot.com/o/pictures%2F2400def636789726ce69.jpg?alt=media&token=3704644f-39c4-481b-a7c2-1fbcf594e169")}><Text style={styles.link}>https://meet.google.com/jwc-ciro-dip</Text></TouchableOpacity>
             </View>
             <View style={styles.qrContainer}>
-                <Image
+                {/* <Image
                     width={200}
                     height={200}  
-                    source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/moviestreaming-a0fc2.appspot.com/o/pictures%2F2400def636789726ce69.jpg?alt=media&token=3704644f-39c4-481b-a7c2-1fbcf594e169' }}/>
+                    source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/moviestreaming-a0fc2.appspot.com/o/pictures%2F2400def636789726ce69.jpg?alt=media&token=3704644f-39c4-481b-a7c2-1fbcf594e169' }}/> */}
+                <QRCode
+                    value="https://firebasestorage.googleapis.com/v0/b/moviestreaming-a0fc2.appspot.com/o/pictures%2F2400def636789726ce69.jpg?alt=media&token=3704644f-39c4-481b-a7c2-1fbcf594e169"
+                    size={200}
+                    logo={{uri: 'https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png'}}
+                    logoSize={30}
+                    logoBackgroundColor='transparent'/>
             </View>
-            <View style={styles.buttonContainer}>
-                <Button title={'Thiết lập nhắc nhở'} borderRadius={10}/>
-            </View>
+            
         </View>
             
             

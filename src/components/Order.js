@@ -18,7 +18,7 @@ export function Order({ avt, code, money, description, status }) {
         </View>
       </View>
       <View style={{ flex: 8 }}>
-        <Text style={styles.orderTitle}>#{code}</Text>
+        <Text style={styles.orderTitle}>#MĐH:{code}</Text>
         <Text style={styles.orderMoney}>{money} đ</Text>
         <Text style={styles.orderDescription}>{description}</Text>
       </View>
