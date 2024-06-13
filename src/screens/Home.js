@@ -201,6 +201,7 @@ export default function Home({ navigation }) {
                 ) {
                   return (
                     <Order
+                      key={index}
                       avt={
                         "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
                       }
