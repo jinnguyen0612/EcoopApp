@@ -18,6 +18,7 @@ import { InputPassword, InputPhone, InputText } from "../components/Input";
 import axios from "../context/axios";
 
 export default function Signup({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -79,6 +80,7 @@ export default function Signup({ navigation }) {
       return;
     }
     try {
+      setLoading(true);
       const response = await axios.post(
         `${axios.defaults.baseURL}/collaborator/register`,
         {
@@ -90,6 +92,7 @@ export default function Signup({ navigation }) {
       );
 
       if (response.data.message === "success") {
+        setLoading(false);
         Alert.alert("Thành công", "Đăng ký tài khoản thành công", [
           {
             text: "Ok",
@@ -99,6 +102,7 @@ export default function Signup({ navigation }) {
         ]);
       } //flag
     } catch (error) {
+      setLoading(false);
       if (error.response.status >= 500) {
         Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
           {

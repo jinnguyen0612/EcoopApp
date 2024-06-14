@@ -17,8 +17,10 @@ import { InputPassword, InputPhone, InputText } from "../components/Input";
 import AuthContext from "../context/AuthProvider";
 import DataStorage from "../utillity/DataStorage";
 import axios from "../context/axios";
+import Loading from "../components/Loading";
 
 export default function Referral({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const { setIsLogin, user, fetchUserData } = useContext(AuthContext);
   const [referralPhone, setReferralPhone] = useState("");
 
@@ -42,6 +44,7 @@ export default function Referral({ navigation }) {
   };
   const handleConfirm = async () => {
     if (checkValidate() === true) {
+      setLoading(true);
       try {
         let email = user.email_collaborator;
         const response = await axios.post("/collaborator/presenter-phone", {
@@ -49,6 +52,7 @@ export default function Referral({ navigation }) {
           email: email,
         });
         if (response.data.message === "success") {
+          setLoading(false);
           const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
           let userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
           userInfo.data[0].presenter_phone = referralPhone;
@@ -73,6 +77,7 @@ export default function Referral({ navigation }) {
           );
         }
       } catch (error) {
+        setLoading(false);
         if (error.response.status >= 500) {
           Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
             {
@@ -94,6 +99,7 @@ export default function Referral({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {loading === true ? <Loading /> : ""}
       <View style={styles.logoContainer}>
         <Image source={require("../assets/logo.png")} />
       </View>

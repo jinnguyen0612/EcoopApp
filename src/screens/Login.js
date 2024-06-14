@@ -18,11 +18,12 @@ import { Button } from "../components/Button";
 import { InputPassword, InputText } from "../components/Input";
 import AuthContext from "../context/AuthProvider";
 import { useToast } from "react-native-toast-notifications";
+import Loading from "../components/Loading";
 
 export default function Login({ navigation }) {
   const { setIsLogin, login, user, fetchUserData } = useContext(AuthContext);
   const toast = useToast();
-
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordHide, setPasswordHide] = useState(true);
@@ -41,10 +42,12 @@ export default function Login({ navigation }) {
       Alert.alert("Cảnh báo", "Password không được để trống");
       return;
     }
-    
+
     try {
+      setLoading(true);
       const res = await login(payload);
       if (res) {
+        setLoading(false);
         const { data } = res;
         let decoded = jwtDecode(data.access_token);
 
@@ -58,7 +61,6 @@ export default function Login({ navigation }) {
 
             const storedData = await DataStorage.GetDataStorage(["@userInfo"]);
             const userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
-
             Alert.alert("Thành công", "Đăng nhập thành công", [
               {
                 text: "Ok",
@@ -83,6 +85,7 @@ export default function Login({ navigation }) {
           }
         }
         if (data.message === "wrong") {
+          setLoading(false);
           Alert.alert("Thông báo", "Sai email hoặc password", [
             {
               text: "OK",
@@ -92,6 +95,7 @@ export default function Login({ navigation }) {
         }
       }
     } catch (error) {
+      setLoading(false);
       if (error.response.status >= 500) {
         Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
           {
@@ -112,6 +116,7 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {loading === true ? <Loading /> : ""}
       <View style={styles.logoContainer}>
         <Image source={require("../assets/logo.png")} />
       </View>

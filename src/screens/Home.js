@@ -21,10 +21,11 @@ import { LineChartWithAverage } from "../components/Char";
 import { SideBar } from "../components/SideBar";
 import AuthContext from "../context/AuthProvider";
 import axios from "../context/axios";
+import Loading from "../components/Loading";
 
 export default function Home({ navigation }) {
   const { user } = useContext(AuthContext);
-
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [ordersShow, setOrdersShow] = useState(true);
@@ -105,6 +106,7 @@ export default function Home({ navigation }) {
   };
   return (
     <View style={styles.container}>
+      {loading === true ? <Loading /> : ""}
       {modalShow ? (
         <SideBar navigation={navigation} onClose={() => setModalShow(false)} />
       ) : (

@@ -21,11 +21,13 @@ import { Button } from "../components/Button";
 import axios from "../context/axios";
 import DataStorage from "../utillity/DataStorage";
 import AuthContext from "../context/AuthProvider";
+import Loading from "../components/Loading";
 
 const CELL_COUNT = 6;
 
 export default function VerifyCode({ navigation }) {
-  const {user} = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const { user } = useContext(AuthContext);
   const [value, setValue] = useState("");
   const [countdown, setCountdown] = useState(60);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
@@ -40,6 +42,7 @@ export default function VerifyCode({ navigation }) {
       return;
     }
     try {
+      setLoading(true);
       const response = await axios.post(
         `${axios.defaults.baseURL}/collaborator/verify`,
         {
@@ -52,6 +55,7 @@ export default function VerifyCode({ navigation }) {
         let userInfo = storedData[0] ? JSON.parse(storedData[0]) : null;
 
         if (userInfo && userInfo.data && userInfo.data.length > 0) {
+          setLoading(false);
           userInfo.data[0].status_verify = 1;
           await DataStorage.SetDataStorage([
             { key: "@userInfo", value: JSON.stringify(userInfo) },
@@ -66,6 +70,7 @@ export default function VerifyCode({ navigation }) {
         }
       }
     } catch (error) {
+      setLoading(false);
       if (error.response.status >= 500) {
         Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
           {
@@ -96,11 +101,14 @@ export default function VerifyCode({ navigation }) {
     }
   }, [countdown]);
   const handleResend = async () => {
-    console.log(user)
+    console.log(user);
     try {
-      let res = await axios.post(`${axios.defaults.baseURL}/collaborator/resend`, {
-        email: user.email_collaborator,
-      });
+      let res = await axios.post(
+        `${axios.defaults.baseURL}/collaborator/resend`,
+        {
+          email: user.email_collaborator,
+        }
+      );
       console.log(res);
       if (res.data.message == "success") {
         Alert.alert("Thành công", "Gửi lại mã Xác minh thành công", [
@@ -111,7 +119,6 @@ export default function VerifyCode({ navigation }) {
         ]);
       }
     } catch (error) {
-
       if (error.response.status >= 500) {
         Alert.alert("Lỗi", "Lỗi máy chủ vui lòng thử lại sau", [
           {
@@ -131,6 +138,7 @@ export default function VerifyCode({ navigation }) {
   };
   return (
     <View style={styles.container}>
+      {loading === true ? <Loading /> : ""}
       <View style={styles.logoContainer}>
         <Image source={require("../assets/logo.png")} />
       </View>
