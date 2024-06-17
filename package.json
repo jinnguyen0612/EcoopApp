@@ -8,6 +8,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web"
   },
+  "proxy": "http://192.168.1.71:3030",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",

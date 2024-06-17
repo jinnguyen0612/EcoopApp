@@ -98,6 +98,7 @@ export default function EventDetails({ navigation }) {
           setNameLeader(res.data.name_leader);
           setAvatarLeader(res.data.avatar_leader);
           setListCollaborator(res.data.data);
+          console.log(res.data.data);
         }
       });
   };
