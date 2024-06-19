@@ -37,6 +37,7 @@ export default function EventDetails({ navigation }) {
   const [nameLeader, setNameLeader] = useState("");
   const [avatarLeader, setAvatarLeader] = useState("");
   const [quantity, setQuantity] = useState("");
+  const noApi = "https://ecoop.vn/?bwaf=" + user.id_collaborator;
   const formatVietnamTime = (isoString) => {
     // Chuyển đổi chuỗi ISO 8601 sang đối tượng Date
     const date = new Date(isoString);
@@ -208,36 +209,30 @@ export default function EventDetails({ navigation }) {
         </View>
       ) : (
         <View style={styles.groupContainer}>
-          {!link && !ListCollaborator ? (
-            <View>
-              <View style={styles.group}>
-                <Text style={styles.notifySubTitle}>Liên kết bán hàng</Text>
-                <TouchableOpacity onPress={() => handlePressLink(link)}>
-                  <Text style={styles.link}>
-                    {"https://ecoop.vn/?bwaf=" + user.id_collaborator}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.qrContainer}>
-                {/* <Image
+          <View>
+            <View style={styles.group}>
+              <Text style={styles.notifySubTitle}>Liên kết bán hàng</Text>
+              <TouchableOpacity onPress={() => handlePressLink(noApi)}>
+                <Text style={styles.link}>{noApi}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.qrContainer}>
+              {/* <Image
                     width={200}
                     height={200}  
                     source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/moviestreaming-a0fc2.appspot.com/o/pictures%2F2400def636789726ce69.jpg?alt=media&token=3704644f-39c4-481b-a7c2-1fbcf594e169' }}/> */}
 
-                <QRCode
-                  value={"https://ecoop.vn/?bwaf=" + user.id_collaborator}
-                  size={200}
-                  logo={{
-                    uri: "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png",
-                  }}
-                  logoSize={30}
-                  logoBackgroundColor="transparent"
-                />
-              </View>
+              <QRCode
+                value={noApi}
+                size={200}
+                logo={{
+                  uri: "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png",
+                }}
+                logoSize={30}
+                logoBackgroundColor="transparent"
+              />
             </View>
-          ) : (
-            <Loading />
-          )}
+          </View>
         </View>
       )}
 
