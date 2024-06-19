@@ -97,8 +97,10 @@ export default function EventDetails({ navigation }) {
           setTime(timeString);
           setNameLeader(res.data.name_leader);
           setAvatarLeader(res.data.avatar_leader);
-          setListCollaborator(res.data.data);
-          console.log(res.data.data);
+
+          const listAva = res.data.data.map((obj) => obj.avatar);
+          setListCollaborator(listAva);
+          console.log(listAva);
         }
       });
   };

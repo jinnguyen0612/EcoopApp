@@ -40,14 +40,13 @@ export default function Affiliate({ navigation }) {
     return formattedDate;
   };
 
-  function runColor(){
+  function runColor() {
     const color = colors[colorIndex];
-    if(colorIndex === colors.length-1){
-      colorIndex=0;
-    }else colorIndex++
+    if (colorIndex === colors.length - 1) {
+      colorIndex = 0;
+    } else colorIndex++;
     return color;
   }
-  
 
   const fetchListCampaign = async () => {
     try {
@@ -78,9 +77,10 @@ export default function Affiliate({ navigation }) {
       </View>
 
       <ScrollView>
-        {listCampaign.map((item) => {
+        {listCampaign.map((item, index) => {
           return (
             <AffiliateItem
+              key={index}
               onPress={() =>
                 navigation.navigate("AffiliateDetails", { data: item })
               }

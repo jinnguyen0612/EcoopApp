@@ -1,10 +1,17 @@
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import * as React from 'react';
-import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { AffiliateItem } from '../components/AffiliateItem';
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import * as React from "react";
+import {
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { AffiliateItem } from "../components/AffiliateItem";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -17,7 +24,9 @@ const FirstRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
     <AffiliateItem
       color={"yellow"}
@@ -26,7 +35,9 @@ const FirstRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
     <AffiliateItem
       color={"grey"}
@@ -35,7 +46,9 @@ const FirstRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
     <AffiliateItem
       color={"green"}
@@ -44,7 +57,9 @@ const FirstRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
     <AffiliateItem
       color={"pink"}
@@ -53,7 +68,9 @@ const FirstRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
   </ScrollView>
 );
@@ -67,7 +84,9 @@ const SecondRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
     <AffiliateItem
       color={"yellow"}
@@ -76,7 +95,9 @@ const SecondRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
     <AffiliateItem
       color={"grey"}
@@ -85,7 +106,9 @@ const SecondRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
     <AffiliateItem
       color={"green"}
@@ -94,7 +117,9 @@ const SecondRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
     <AffiliateItem
       color={"pink"}
@@ -103,7 +128,9 @@ const SecondRoute = () => (
       dateFrom={"04/06/2024"}
       dateTo={"11/06/2024"}
       user={"2000"}
-      image={"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"}
+      image={
+        "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+      }
     />
   </ScrollView>
 );
@@ -112,7 +139,10 @@ export default function WorkSpace({ navigation }) {
   return (
     <>
       <View style={styles.header}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={() => navigation.goBack()}
+        >
           <FontAwesomeIcon size={20} icon={faArrowLeft} />
         </TouchableOpacity>
         <View style={{ flex: 10 }}>
