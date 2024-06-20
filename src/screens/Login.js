@@ -19,6 +19,7 @@ import { InputPassword, InputText } from "../components/Input";
 import AuthContext from "../context/AuthProvider";
 import { useToast } from "react-native-toast-notifications";
 import Loading from "../components/Loading";
+import axios from "../context/axios";
 
 export default function Login({ navigation }) {
   const { setIsLogin, login, user, fetchUserData } = useContext(AuthContext);
@@ -49,8 +50,12 @@ export default function Login({ navigation }) {
       if (res) {
         setLoading(false);
         const { data } = res;
+        axios.post(`${axios.defaults.baseURL}/collaborator/send-email`, {
+          payload: {
+            email: data.data[0].email_collaborator,
+          },
+        });
         let decoded = jwtDecode(data.access_token);
-
         if (data.message === "success") {
           if (decoded.data[0].status_account === 1) {
             await DataStorage.SetDataStorage([

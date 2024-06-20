@@ -16,6 +16,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Button } from "../components/Button";
 import { InputPassword, InputPhone, InputText } from "../components/Input";
 import axios from "../context/axios";
+import Loading from "../components/Loading";
 
 export default function Signup({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -123,6 +124,7 @@ export default function Signup({ navigation }) {
 
   return (
     <KeyboardAwareScrollView style={styles.container}>
+      {loading === true ? <Loading /> : ""}
       <View style={styles.logoContainer}>
         <Image source={require("../assets/logo.png")} />
       </View>
