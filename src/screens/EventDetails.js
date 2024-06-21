@@ -37,7 +37,8 @@ export default function EventDetails({ navigation }) {
   const [nameLeader, setNameLeader] = useState("");
   const [avatarLeader, setAvatarLeader] = useState("");
   const [quantity, setQuantity] = useState("");
-  const noApi = "https://ecoop.vn/?bwaf=" + user.id_collaborator;
+  const noApi =
+    "https://ecoopglobalvn.mysapo.net/?bwaf=" + user.id_collaborator;
   const formatVietnamTime = (isoString) => {
     // Chuyển đổi chuỗi ISO 8601 sang đối tượng Date
     const date = new Date(isoString);
@@ -77,8 +78,8 @@ export default function EventDetails({ navigation }) {
 
     return { dateString, timeString };
   };
-  const fetchTeamBy = () => {
-    axios
+  const fetchTeamBy = async () => {
+    await axios
       .get(`${axios.defaults.baseURL}/team/all-team/${user.email_collaborator}`)
       .then((res) => {
         if (res) {
@@ -140,100 +141,106 @@ export default function EventDetails({ navigation }) {
         <View style={{ flex: 1 }}></View>
       </View>
       <Text style={styles.notifyTitle}>Hướng dẫn sử dụng cho người mới</Text>
-      {link && ListCollaborator ? (
+      {ListCollaborator ? (
         <View>
-          <View style={styles.flexRow}>
-            <View style={{ flex: 8, paddingRight: 20 }}>
-              <Text style={styles.notifySubTitle}>
-                {date} | {time}
-              </Text>
-            </View>
-            <View
-              style={{
-                flex: 3,
-                alignItems: "flex-end",
-                justifyContent: "center",
-              }}
-            >
-              <View style={styles.notifyTime}>
-                <Text style={styles.notifyTimeContent}>
-                  <FontAwesomeIcon color="#7D8592" icon={faClock} /> 3p
-                </Text>
+          {link && ListCollaborator ? (
+            <View>
+              <View style={styles.flexRow}>
+                <View style={{ flex: 8, paddingRight: 20 }}>
+                  <Text style={styles.notifySubTitle}>
+                    {date} | {time}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 3,
+                    alignItems: "flex-end",
+                    justifyContent: "center",
+                  }}
+                >
+                  <View style={styles.notifyTime}>
+                    <Text style={styles.notifyTimeContent}>
+                      <FontAwesomeIcon color="#7D8592" icon={faClock} /> 3p
+                    </Text>
+                  </View>
+                </View>
               </View>
-            </View>
-          </View>
 
-          <View style={styles.flexRow}>
-            <View style={{ flex: 1, justifyContent: "flex-start" }}>
-              <Text style={styles.notifySubTitle}>Trưởng nhóm</Text>
-              <View style={[styles.flexRow, styles.leader]}>
-                <Avatar link={avatarLeader} />
-                <Text style={styles.leaderName}>{nameLeader}</Text>
+              <View style={styles.flexRow}>
+                <View style={{ flex: 1, justifyContent: "flex-start" }}>
+                  <Text style={styles.notifySubTitle}>Trưởng nhóm</Text>
+                  <View style={[styles.flexRow, styles.leader]}>
+                    <Avatar link={avatarLeader} />
+                    <Text style={styles.leaderName}>{nameLeader}</Text>
+                  </View>
+                </View>
+                <View style={{ flex: 1, alignItems: "flex-end" }}>
+                  <Text style={styles.notifySubTitle}>Người được mời</Text>
+                  <ListAvt links={ListCollaborator} />
+                </View>
               </View>
             </View>
-            <View style={{ flex: 1, alignItems: "flex-end" }}>
-              <Text style={styles.notifySubTitle}>Người được mời</Text>
-              <ListAvt links={ListCollaborator} />
-            </View>
-          </View>
-        </View>
-      ) : (
-        ""
-      )}
-      {link && ListCollaborator ? (
-        <View style={styles.groupContainer}>
-          <View>
-            <View style={styles.group}>
-              <Text style={styles.notifySubTitle}>Liên kết bán hàng</Text>
-              <TouchableOpacity onPress={() => handlePressLink(link)}>
-                <Text style={styles.link}>{link}</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.qrContainer}>
-              {/* <Image
+          ) : (
+            ""
+          )}
+          {link && ListCollaborator ? (
+            <View style={styles.groupContainer}>
+              <View>
+                <View style={styles.group}>
+                  <Text style={styles.notifySubTitle}>Liên kết bán hàng</Text>
+                  <TouchableOpacity onPress={() => handlePressLink(link)}>
+                    <Text style={styles.link}>{link}</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.qrContainer}>
+                  {/* <Image
                     width={200}
                     height={200}  
                     source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/moviestreaming-a0fc2.appspot.com/o/pictures%2F2400def636789726ce69.jpg?alt=media&token=3704644f-39c4-481b-a7c2-1fbcf594e169' }}/> */}
 
-              <QRCode
-                value={link}
-                size={200}
-                logo={{
-                  uri: "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png",
-                }}
-                logoSize={30}
-                logoBackgroundColor="transparent"
-              />
+                  <QRCode
+                    value={link}
+                    size={200}
+                    logo={{
+                      uri: "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png",
+                    }}
+                    logoSize={30}
+                    logoBackgroundColor="transparent"
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
-      ) : (
-        <View style={styles.groupContainer}>
-          <View>
-            <View style={styles.group}>
-              <Text style={styles.notifySubTitle}>Liên kết bán hàng</Text>
-              <TouchableOpacity onPress={() => handlePressLink(noApi)}>
-                <Text style={styles.link}>{noApi}</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.qrContainer}>
-              {/* <Image
+          ) : (
+            <View style={styles.groupContainer}>
+              <View>
+                <View style={styles.group}>
+                  <Text style={styles.notifySubTitle}>Liên kết bán hàng</Text>
+                  <TouchableOpacity onPress={() => handlePressLink(noApi)}>
+                    <Text style={styles.link}>{noApi}</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.qrContainer}>
+                  {/* <Image
                     width={200}
                     height={200}  
                     source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/moviestreaming-a0fc2.appspot.com/o/pictures%2F2400def636789726ce69.jpg?alt=media&token=3704644f-39c4-481b-a7c2-1fbcf594e169' }}/> */}
 
-              <QRCode
-                value={noApi}
-                size={200}
-                logo={{
-                  uri: "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png",
-                }}
-                logoSize={30}
-                logoBackgroundColor="transparent"
-              />
+                  <QRCode
+                    value={noApi}
+                    size={200}
+                    logo={{
+                      uri: "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png",
+                    }}
+                    logoSize={30}
+                    logoBackgroundColor="transparent"
+                  />
+                </View>
+              </View>
             </View>
-          </View>
+          )}
         </View>
+      ) : (
+        <Loading />
       )}
 
       <StatusBar style="auto" />
