@@ -26,5 +26,5 @@ import axios from "axios";
 export default axios.create({
   //baseURL: "http://192.168.1.71:3030",
   //baseURL: "https://node-vercel-sigma.vercel.app",
-  baseURL: "https://2098-113-162-165-238.ngrok-free.app",
+  baseURL: "https://4cd1-113-162-165-238.ngrok-free.app",
 });

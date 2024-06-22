@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "696647956945",
+    "project_id": "ecooptest-76244",
+    "storage_bucket": "ecooptest-76244.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696647956945:android:b5eb6eb0ff318518b8c8f0",
+        "android_client_info": {
+          "package_name": "com.ecoopapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWST7UjWostgrMjnsa_MEi0uzLPZOaSrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
