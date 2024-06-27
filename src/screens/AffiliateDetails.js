@@ -41,9 +41,9 @@ export default function AffiliateDetails({ route, navigation }) {
     const formattedDate = `${day}/${month}/${year}`;
     return formattedDate;
   };
-  // useEffect(() => {
-  //   console.log(data);
-  // }, []);
+  useEffect(() => {
+    console.log(data);
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -126,7 +126,12 @@ export default function AffiliateDetails({ route, navigation }) {
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        <Button title={"Kiếm tiền ngay"} />
+        <Button 
+          title={"Kiếm tiền ngay"} 
+          onPress={() =>
+            navigation.navigate("ProductsLinks", { data: data.products })
+          }
+        />
       </View>
 
       <StatusBar style="auto" />

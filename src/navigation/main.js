@@ -14,6 +14,8 @@ import AuthContext from "../context/AuthProvider";
 import Affiliate from "../screens/Affiliate";
 import AffiliateDetails from "../screens/AffiliateDetails";
 import WorkSpace from "../screens/WorkSpace";
+import { ProductItem } from "../components/ProductItem";
+import ProductsLinks from "../screens/ProductsLinks";
 
 
 const Stack = createNativeStackNavigator()
@@ -63,6 +65,16 @@ export default function MyScreen(){
             <Stack.Screen
               name="WorkSpace"
               component={WorkSpace}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ProductsLinks"
+              component={ProductsLinks}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ProductItem"
+              component={ProductItem}
               options={{ headerShown: false }}
             />
           </>

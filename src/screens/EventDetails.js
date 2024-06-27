@@ -28,7 +28,7 @@ import AuthContext from "../context/AuthProvider";
 import QRCode from "react-native-qrcode-svg";
 import axios from "../context/axios";
 import Loading from "../components/Loading";
-import Clipboard from '@react-native-clipboard/clipboard';
+// import Clipboard from '@react-native-clipboard/clipboard';
 
 
 
@@ -125,7 +125,7 @@ export default function EventDetails({ navigation }) {
   };
 
   function copyToClipboard(text){
-    Clipboard.setString(text);
+    // Clipboard.setString(text);
   };
 
 
