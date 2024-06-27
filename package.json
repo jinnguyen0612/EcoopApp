@@ -15,6 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-clipboard/clipboard": "^1.14.1",
     "@react-native-firebase/app": "^20.1.0",
     "@react-native-firebase/messaging": "^20.1.0",
     "@react-native-masked-view/masked-view": "^0.3.1",
@@ -24,6 +25,7 @@
     "@react-navigation/stack": "^6.3.29",
     "axios": "^1.7.0",
     "expo": "~51.0.2",
+    "expo-dev-client": "~4.0.18",
     "expo-status-bar": "~1.12.1",
     "jwt-decode": "^4.0.0",
     "react": "18.2.0",
@@ -39,8 +41,7 @@
     "react-native-svg": "^15.3.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-toast-notifications": "^3.4.0",
-    "react-query": "^3.39.3",
-    "expo-dev-client": "~4.0.18"
+    "react-query": "^3.39.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

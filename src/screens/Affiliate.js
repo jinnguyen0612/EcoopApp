@@ -53,8 +53,8 @@ export default function Affiliate({ navigation }) {
       let response = await axios.get(
         `${axios.defaults.baseURL}/campaign/all-campaign`
       );
-      if (response.data.message === "success") {
-        setListCampaign(response.data.data);
+      if (response) {
+        setListCampaign(response.data);
       }
     } catch (error) {}
   };
@@ -91,71 +91,13 @@ export default function Affiliate({ navigation }) {
               dateTo={parseTime(item.end)}
               user={"2000"}
               image={
-                "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+                item.image ==null?
+                "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png":
+                item.image
               }
             />
           );
         })}
-
-        {/* <AffiliateItem
-          color={"blue"}
-          title={"Presentation of the new app launch"}
-          money={2000}
-          dateFrom={"04/06/2024"}
-          dateTo={"11/06/2024"}
-          user={"2000"}
-          image={
-            "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
-          }
-        />
-
-        <AffiliateItem
-          color={"yellow"}
-          title={"Presentation of the new app launch"}
-          money={2000}
-          dateFrom={"04/06/2024"}
-          dateTo={"11/06/2024"}
-          user={"2000"}
-          image={
-            "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
-          }
-        />
-
-        <AffiliateItem
-          color={"grey"}
-          title={"Presentation of the new app launch"}
-          money={2000}
-          dateFrom={"04/06/2024"}
-          dateTo={"11/06/2024"}
-          user={"2000"}
-          image={
-            "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
-          }
-        />
-
-        <AffiliateItem
-          color={"green"}
-          title={"Presentation of the new app launch"}
-          money={2000}
-          dateFrom={"04/06/2024"}
-          dateTo={"11/06/2024"}
-          user={"2000"}
-          image={
-            "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
-          }
-        />
-
-        <AffiliateItem
-          color={"pink"}
-          title={"Presentation of the new app launch"}
-          money={2000}
-          dateFrom={"04/06/2024"}
-          dateTo={"11/06/2024"}
-          user={"2000"}
-          image={
-            "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
-          }
-        /> */}
         <View style={{ height: 160 }}></View>
       </ScrollView>
 

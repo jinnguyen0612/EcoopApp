@@ -16,6 +16,7 @@ import {
   faArrowLeft,
   faBlackboard,
   faClock,
+  faCopy,
 } from "@fortawesome/free-solid-svg-icons";
 import { InputPhone, InputText } from "../components/Input";
 import { Button } from "../components/Button";
@@ -27,6 +28,10 @@ import AuthContext from "../context/AuthProvider";
 import QRCode from "react-native-qrcode-svg";
 import axios from "../context/axios";
 import Loading from "../components/Loading";
+import Clipboard from '@react-native-clipboard/clipboard';
+
+
+
 
 export default function EventDetails({ navigation }) {
   const { user } = useContext(AuthContext);
@@ -119,13 +124,11 @@ export default function EventDetails({ navigation }) {
     openExternalLink(url);
   };
 
-  const avtLink = [
-    "https://1.bp.blogspot.com/-suPoIp0q7J8/YQP2BoeKQDI/AAAAAAAACEY/5yzEtTUsRpMggIHvBBPAxSmZ79nZKBCVgCLcBGAsYHQ/s750/7.jpg",
-    "https://1.bp.blogspot.com/-WRVMxXn7gJg/YQP2AJK2zOI/AAAAAAAACD0/0MVArLtw9_89z_yBD6k8PCm9SGHd-cQYwCLcBGAsYHQ/s750/1.jpg",
-    "https://i.pinimg.com/1200x/f7/20/97/f720978ed61e6366ab03033a8ad88e05.jpg",
-    "https://i.pinimg.com/1200x/f7/20/97/f720978ed61e6366ab03033a8ad88e05.jpg",
-    "https://i.pinimg.com/1200x/f7/20/97/f720978ed61e6366ab03033a8ad88e05.jpg",
-  ];
+  function copyToClipboard(text){
+    Clipboard.setString(text);
+  };
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -188,9 +191,14 @@ export default function EventDetails({ navigation }) {
               <View>
                 <View style={styles.group}>
                   <Text style={styles.notifySubTitle}>Liên kết bán hàng</Text>
-                  <TouchableOpacity onPress={() => handlePressLink(link)}>
-                    <Text style={styles.link}>{link}</Text>
-                  </TouchableOpacity>
+                  <View style={styles.linkContainer}>
+                    <TouchableOpacity style={styles.linkFlex}  onPress={() => handlePressLink(link)}>
+                      <Text style={styles.link}>{link}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.copyFlex} onPress={()=>copyToClipboard(link)}>
+                      <FontAwesomeIcon icon={faCopy} size={24} color="#3F8CFF"/>
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 <View style={styles.qrContainer}>
                   {/* <Image
@@ -215,9 +223,14 @@ export default function EventDetails({ navigation }) {
               <View>
                 <View style={styles.group}>
                   <Text style={styles.notifySubTitle}>Liên kết bán hàng</Text>
-                  <TouchableOpacity onPress={() => handlePressLink(noApi)}>
-                    <Text style={styles.link}>{noApi}</Text>
-                  </TouchableOpacity>
+                  <View style={styles.linkContainer}>
+                    <TouchableOpacity style={styles.linkFlex} onPress={() => handlePressLink(noApi)}>
+                      <Text style={styles.link}>{noApi}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.copyFlex} onPress={()=>copyToClipboard(noApi)}>
+                      <FontAwesomeIcon icon={faCopy} size={24} color="#3F8CFF"/>
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 <View style={styles.qrContainer}>
                   {/* <Image
@@ -312,6 +325,23 @@ const styles = StyleSheet.create({
   },
   group: {
     marginBottom: 20,
+  },
+  linkContainer:{
+    display:"flex",
+    flexDirection:"row",
+    justifyContent:"center",
+    alignItems:"center",
+  },
+  linkFlex:{
+    flex:10,
+  },
+  copyFlex:{
+    flex:1,
+    borderWidth:1,
+    borderColor:"#3F8CFF",
+    paddingTop:5,
+    paddingBottom:5,
+    alignItems:"center",
   },
   link: {
     color: "#3F8CFF",

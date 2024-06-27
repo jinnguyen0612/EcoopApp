@@ -41,9 +41,9 @@ export default function AffiliateDetails({ route, navigation }) {
     const formattedDate = `${day}/${month}/${year}`;
     return formattedDate;
   };
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -61,9 +61,12 @@ export default function AffiliateDetails({ route, navigation }) {
         <View style={styles.campaignImage}>
           <Image
             style={styles.image}
-            source={{
-              uri: "https://marketplace.canva.com/EAE54xVnIvo/1/0/1600w/canva-beige-green-simple-product-feature-instagram-posts-4DHnplrmIp0.jpg",
-            }}
+            source={data.image==null?{
+            uri:"https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
+            }:{
+              uri:data.image
+            }
+          }
           />
         </View>
 
@@ -115,9 +118,9 @@ export default function AffiliateDetails({ route, navigation }) {
         <View style={styles.campaignInfo}>
           <Text>
             {data.description}
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <Text style={{ color: "blue" }}>Xem thêm</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </Text>
         </View>
       </ScrollView>
