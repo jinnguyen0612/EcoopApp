@@ -16,6 +16,7 @@ import AffiliateDetails from "../screens/AffiliateDetails";
 import WorkSpace from "../screens/WorkSpace";
 import { ProductItem } from "../components/ProductItem";
 import ProductsLinks from "../screens/ProductsLinks";
+import SubCollaborator from "../screens/SubCollaborator";
 
 
 const Stack = createNativeStackNavigator()
@@ -75,6 +76,11 @@ export default function MyScreen(){
             <Stack.Screen
               name="ProductItem"
               component={ProductItem}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SubCollaborator"
+              component={SubCollaborator}
               options={{ headerShown: false }}
             />
           </>

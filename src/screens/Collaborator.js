@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   StyleSheet,
@@ -19,8 +19,32 @@ import { InputPhone, InputText } from "../components/Input";
 import { Button } from "../components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Team } from "../components/Team";
+import AuthContext from "../context/AuthProvider";
+import axios from "../context/axios";
 
 export default function Collaborator({ navigation }) {
+  const { user } = useContext(AuthContext);
+  const [collaborators,setCollaborators] = useState([])
+  const [load,setLoad] = useState(true)
+  const getCollaborator = async () => {
+    try {
+      const response = await axios.get(`${axios.defaults.baseURL}/team/all-collaborator/${user.phone}`);
+      setCollaborators(response.data);
+      setLoad(false);
+    } catch (error) {
+      console.error("Error fetching collaborator data:", error);
+    }
+  }
+  
+  const handlePress = (data) =>{
+    navigation.navigate("SubCollaborator", { data: data })
+  }
+
+  useEffect(() => {
+    getCollaborator();
+  }, [load]);
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -36,60 +60,26 @@ export default function Collaborator({ navigation }) {
         <View style={{ flex: 1 }}></View>
       </View>
       <ScrollView style={styles.listTeam}>
-        <Team
-          avt={
-            "https://i.pinimg.com/236x/98/96/86/9896861906bb3ae3d515b48a8c3d1c7e.jpg"
-          }
-          name={"Haibara Ai"}
-          sex={"Nữ"}
-          position={"Cộng tác viên"}
-          numMember={0}
-        />
-        <Team
-          avt={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSrHTF4m60XB-kU3nhuGEfBxNjTwrmDO2tHpTdabG6Ww&s"
-          }
-          name={"Ku Shin"}
-          sex={"Nam"}
-          position={"Cộng tác viên"}
-          numMember={20}
-        />
-        <Team
-          avt={
-            "https://i.pinimg.com/236x/98/96/86/9896861906bb3ae3d515b48a8c3d1c7e.jpg"
-          }
-          name={"Haibara Ai"}
-          sex={"Nữ"}
-          position={"Cộng tác viên"}
-          numMember={0}
-        />
-        <Team
-          avt={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSrHTF4m60XB-kU3nhuGEfBxNjTwrmDO2tHpTdabG6Ww&s"
-          }
-          name={"Ku Shin"}
-          sex={"Nam"}
-          position={"Cộng tác viên"}
-          numMember={20}
-        />
-        <Team
-          avt={
-            "https://i.pinimg.com/236x/98/96/86/9896861906bb3ae3d515b48a8c3d1c7e.jpg"
-          }
-          name={"Haibara Ai"}
-          sex={"Nữ"}
-          position={"Cộng tác viên"}
-          numMember={0}
-        />
-        <Team
-          avt={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSrHTF4m60XB-kU3nhuGEfBxNjTwrmDO2tHpTdabG6Ww&s"
-          }
-          name={"Ku Shin"}
-          sex={"Nam"}
-          position={"Cộng tác viên"}
-          numMember={20}
-        />
+        {
+          collaborators.length===0?(
+            <Text style={{marginTop:50,textAlign:"center",fontSize:20,fontWeight:"600"}}>Chưa có thành viên</Text>
+          ):(
+            collaborators.map((item, index) => {
+              return (
+                <Team
+                  onPress={()=>handlePress(item)}
+                  avt={
+                    item.avatar
+                  }
+                  name={item.name_collaborator}
+                  numMember={item.count}
+                />
+              );
+            })
+          )
+        }
+
+        
 
         <View style={{ height: 140 }}></View>
       </ScrollView>
