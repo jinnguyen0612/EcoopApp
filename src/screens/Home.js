@@ -37,7 +37,7 @@ export default function Home({ navigation }) {
       `${axios.defaults.baseURL}/collaborator/get-by-id/${user.id_collaborator}`
     );
     if (res) {
-      setIdCollaborator(res.data.data[0].total_withdrawn);
+      setIdCollaborator(res.data.data[0].total_recived);
     }
   };
   useEffect(() => {
@@ -62,17 +62,10 @@ export default function Home({ navigation }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://ecoopglobalvn.mysapo.net/admin/orders.json",
-          {
-            auth: {
-              username: "9d28ed79bc9447dfabe8ab7c94c54ba9", // API Key
-              password: "f9f1006a296940f1ab070c5f4cd2a638", // API Secret
-            },
-          }
-        );
+        const response = await axios.get(`${axios.defaults.baseURL}/orders/get-order-by/${user.id_collaborator}`);
+        console.log(response.data)
         if (response) {
-          setData(response.data.orders);
+          setData(response.data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -183,113 +176,24 @@ export default function Home({ navigation }) {
         <ScrollView style={styles.listOrder}>
           {data
             ? data.map((item, index) => {
-                const formattedPhoneNumber = item.phone.replace(/^\+84/, "");
-
-                // Chuyển chuỗi thành mảng ký tự để thay đổi phần tử
-                const phoneNumberArray = formattedPhoneNumber.split("");
-
-                // Thay đổi phần tử từ vị trí 3 đến vị trí 5 thành 'x'
-                for (let i = 2; i <= 4; i++) {
-                  phoneNumberArray[i] = "x";
-                }
-
-                // Chuyển mảng ký tự trở lại thành chuỗi
-                const maskedPhoneNumber = phoneNumberArray.join("");
-                if (
-                  item.financial_status === "paid" &&
-                  item.fulfillment_status === "fulfilled" &&
-                  item.status === "open" &&
-                  (item.landing_site !== "" || !item.landing_site)
-                ) {
                   return (
                     <Order
                       key={index}
                       avt={
                         "https://xeluudong.apecglobal.net/wp-content/uploads/2022/09/ECOOP-LOGO.png"
                       }
-                      code={item.id}
-                      money={formatCurrency(item.total_price)}
-                      description={`0${maskedPhoneNumber} đã mua hàng lúc ${formatDate(
+                      code={item.id_orders_sapo}
+                      money={item.total_price}
+                      description={`${item.customer_phone} đã mua hàng lúc ${
                         item.created_on
-                      )}`}
-                      status={"3"}
+                      }`}
+                      status={"2"}
                     />
                   );
                 }
-              })
-            : "loading"}
-          {/* <Order
-            avt={
-              "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
-            }
-            code={"MHD123"}
-            money={"10000"}
-            description={"092xxxxx29 đã mua hàng lúc 10:10"}
-            status={"3"}
-          />
-          <Order
-            avt={
-              "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
-            }
-            code={"MHD123"}
-            money={"10000"}
-            description={"092xxxxx29 đã mua hàng lúc 10:10"}
-            status={"3"}
-          />
-          <Order
-            avt={
-              "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
-            }
-            code={"MHD123"}
-            money={"10000"}
-            description={"092xxxxx29 đã mua hàng lúc 10:10"}
-            status={"3"}
-          />
-          <Order
-            avt={
-              "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
-            }
-            code={"MHD123"}
-            money={"10000"}
-            description={"092xxxxx29 đã mua hàng lúc 10:10"}
-            status={"3"}
-          />
-          <Order
-            avt={
-              "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
-            }
-            code={"MHD123"}
-            money={"10000"}
-            description={"092xxxxx29 đã mua hàng lúc 10:10"}
-            status={"3"}
-          />
-          <Order
-            avt={
-              "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
-            }
-            code={"MHD123"}
-            money={"10000"}
-            description={"092xxxxx29 đã mua hàng lúc 10:10"}
-            status={"3"}
-          />
-          <Order
-            avt={
-              "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
-            }
-            code={"MHD123"}
-            money={"10000"}
-            description={"092xxxxx29 đã mua hàng lúc 10:10"}
-            status={"3"}
-          />
-          <Order
-            avt={
-              "https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/175607/Originals/avt-cho-cute%20(22).jpg"
-            }
-            code={"MHD123"}
-            money={"10000"}
-            description={"092xxxxx29 đã mua hàng lúc 10:10"}
-            status={"3"}
-          /> */}
+              )
+            : <Text>loading</Text>}
+          
           <View style={{ height: 520 }}></View>
         </ScrollView>
       ) : (
