@@ -83,6 +83,11 @@ export default function MyScreen(){
               component={SubCollaborator}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Referral"
+              component={Referral}
+              options={{ headerShown: false }}
+            />
           </>
         ) : (
           <>

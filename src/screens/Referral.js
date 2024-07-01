@@ -21,11 +21,12 @@ import Loading from "../components/Loading";
 
 export default function Referral({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const { setIsLogin, user, fetchUserData } = useContext(AuthContext);
+  const { isLogin,setIsLogin, user, fetchUserData } = useContext(AuthContext);
   const [referralPhone, setReferralPhone] = useState("");
 
   const handleSkip = async () => {
-    setIsLogin(true);
+    if(isLogin) navigation.navigate("Home");
+    else setIsLogin(true);
   };
   const validatePhoneNumber = (phoneNumber) => {
     const re = /^0\d{9}$/;
@@ -68,7 +69,8 @@ export default function Referral({ navigation }) {
                 text: "OK",
                 onPress: () => {
                   {
-                    setIsLogin(true);
+                    if(isLogin) navigation.navigate("Home");
+                    else setIsLogin(true);
                   }
                 },
                 style: "cancel",
